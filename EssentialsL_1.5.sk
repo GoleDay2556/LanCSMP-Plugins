@@ -8,15 +8,15 @@
 #      _\/\\\_____________\////////\\\_\////////\\\_\//\\///////___\/\\\___\/\\\____\/\\\_/\\__\/\\\__/\\\/////\\\_____\/\\\____\////////\\\_\/\\\_____________  
 #       _\/\\\\\\\\\\\\\\\__/\\\\\\\\\\__/\\\\\\\\\\__\//\\\\\\\\\\_\/\\\___\/\\\____\//\\\\\___\/\\\_\//\\\\\\\\/\\__/\\\\\\\\\__/\\\\\\\\\\_\/\\\\\\\\\\\\\\\_ 
 #        _\///////////////__\//////////__\//////////____\//////////__\///____\///______\/////____\///___\////////\//__\/////////__\//////////__\///////////////__
-#V 1.0
+#V 1.5
 
 #=====================================================================================
 #  CONFIG
 #=====================================================================================
 on load:
-    set {dep_check_economy} to false #The dependency check flag. DO NOT TOUCH
-    set {dep_check_transfer} to false #The dependency check flag. DO NOT TOUCH
-    set {version} to "V 1.0"
+    set {dep_check_economy} to true #The dependency check flag. DO NOT TOUCH
+    set {dep_check_transfer} to true #The dependency check flag. DO NOT TOUCH
+    set {version} to "V 1.5"
 #=====================================================================================
 #AUTO LOAD, DO NOT TOUCH!
 #=====================================================================================
@@ -46,13 +46,13 @@ on load:
     send "[EssentialsL]      _\/\\\_____________\/\\\\\\\\\\_\/\\\\\\\\\\__/\\\\\\\\\\\__\/\\\__\//\\\____\/\\\______\/\\\___/\\\\\\\\\\_____\/\\\____\/\\\\\\\\\\_\/\\\_____________" to console
     send "[EssentialsL]       _\/\\\_____________\////////\\\_\////////\\\_\//\\///////___\/\\\___\/\\\____\/\\\_/\\__\/\\\__/\\\/////\\\_____\/\\\____\////////\\\_\/\\\_____________" to console
     send "[EssentialsL]        _\/\\\\\\\\\\\\\\\__/\\\\\\\\\\__/\\\\\\\\\\__\//\\\\\\\\\\_\/\\\___\/\\\____\//\\\\\___\/\\\_\//\\\\\\\\/\\__/\\\\\\\\\__/\\\\\\\\\\_\/\\\\\\\\\\\\\\\_" to console
-    send "[EssentialsL]         _\///////////////__\//////////__\//////////____\//////////__\///____\///______\/////____\///___\////////\//__\/////////__\//////////__\///////////////__" to console"
+    send "[EssentialsL]         _\///////////////__\//////////__\//////////____\//////////__\///____\///______\/////____\///___\////////\//__\/////////__\//////////__\///////////////__" to console
     send "<white>[<cyan>EssentialsL<white>] <lime>Successfully Loaded EssentialsL!" to ops and console
 
 #Economy
     if {dep_check_economy} is true:
         set {enabled_economy} to true
-        stop
+        send "<white>[<green>Economy<white>] <lime>Successfully Loaded Economy" to ops and console
 
     else:
         set {enabled_economy} to true
@@ -61,14 +61,18 @@ on load:
 
 #Transfer
     if {dep_check_transfer} is true:
-        set {enabled_transfer} to true 
-        stop
- 
+        if plugin "Skungee-2.0.0-BETA-5" is enabled:
+            set {enabled_transfer} to true
+            send "<white>[<pink>Transfer<white>] <lime>Successfully Loaded Transfer" to ops and console
+        
+        else:
+            send "<white>[<pink>Transfer<white>] <red>DISABLED- Missing 'SkungeeVelocity' Plugin" to ops and console
+            set {enabled_transfer} to false        
 
-    else:
+    else if {dep_check_transfer} is false:
         set {enabled_transfer} to true
-        send "<white>[<violet>Transfer<white>] <red>[EL//Transfer] was loaded without dependency check!" to ops and console
-        send "<white>[<violet>Transfer<white>] <red>That may lead to bad consequences..." to ops and console
+        send "<white>[<pink>Transfer<white>] <red>[EL//Transfer] was loaded without dependency check!" to ops and console
+        send "<white>[<pink>Transfer<white>] <red>That may lead to bad consequences..." to ops and console
 
 #+-----------------------------------------------------------------------------------+
 #|                                                                                   |
@@ -901,7 +905,7 @@ command /hub:
         send title "<red>1" with subtitle "<yellow>Sending to server 'Hub'"
         wait 0.5 seconds
         send title "<red>Saving..." with subtitle "<yellow>Sending to server 'Hub'"
-        execute player command "server hub"
+        connect player to server "hub"
 
 command /smp:
     trigger:
@@ -918,7 +922,7 @@ command /smp:
         send title "<red>1" with subtitle "<yellow>Sending to server 'SMP_1'"
         wait 0.5 seconds
         send title "<red>Saving..." with subtitle "<yellow>Player has been transitioned to server 'SMP_1'"
-        execute player command "server SMP_1"      
+        connect player to server "smp_1"     
 
 command /anarchy:
     trigger:
@@ -935,4 +939,4 @@ command /anarchy:
         send title "<red>1" with subtitle "<yellow>Sending to server 'SMP_2'"
         wait 0.5 seconds
         send title "<red>Saving..." with subtitle "<yellow>Player has been transitioned to server 'SMP_2'"
-        execute player command "server SMP_2"        
+        connect player to server "smp_2"  
