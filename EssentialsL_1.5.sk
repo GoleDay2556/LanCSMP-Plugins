@@ -66,7 +66,7 @@ on load:
             send "<white>[<pink>Transfer<white>] <lime>Successfully Loaded Transfer" to ops and console
         
         else:
-            send a fatal error "<white>[<pink>Transfer<white>] <red>DISABLED- Missing 'SkungeeVelocity' Plugin" to  console
+            send "<white>[<pink>Transfer<white>] <red>DISABLED- Missing 'SkungeeVelocity' Plugin" to  console
             set {enabled_transfer} to false        
 
     else if {dep_check_transfer} is false:
