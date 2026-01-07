@@ -120,21 +120,8 @@ command /gamestart:
                 play sound "block.note_block.hat" to loop-player
             wait 1 second
             remove 1 from {_time}
-            set {game-started}
+            
         loop all players:
             send title "<green>GO!" with subtitle "" to loop-player
             play sound "entity.player.levelup" to loop-player
-            GameStarted(p: player)
-#=====================================================================================
-# FUNCTIONS
-#=====================================================================================
-function GameStarted(p: player)
-    set {_time} to 10
-    while {_time} > 0:
-        loop all players:
-        wait 1 seconds
-        remove 1 from {_time}
-
-        if {_time} is "5":
-            send title "<red>5" to loop-player
         
