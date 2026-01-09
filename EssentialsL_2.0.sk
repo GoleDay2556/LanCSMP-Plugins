@@ -66,27 +66,27 @@ on load:
             set {enabled_transfer} to true
             send "<white>[<pink>Transfer<white>] <lime>Successfully Loaded Transfer" to ops and console
         
-            send "<white>[<pink>Transfer<white>] <red>DISABLED- Missing 'SkungeeVelocity' Plugin" to  console
+            send "<white>[<pink>Transfer<white>] <red>DISABLED- Missing 'SkungeeVelocity' Plugin" to ops and console
             set {enabled_transfer} to false        
 
     else if {dep_check_transfer} is false:
         set {enabled_transfer} to true
-        send "<white>[<pink>Transfer<white>] <red>[Transfer] was loaded without dependency check!" to console
-        send "<white>[<pink>Transfer<white>] <red>That may lead to bad consequences..." to console
+        send "<white>[<pink>Transfer<white>] <red>[Transfer] was loaded without dependency check!" to ops and console
+        send "<white>[<pink>Transfer<white>] <red>That may lead to bad consequences..." to ops and console
 
 
 #Changed
     if {dep_check_changed} is true:
         if plugin "skinsrestorer" is disabled:
             set {enabled_changed} to false
-            send "<white>[<gray>Changed<white>] <red>DISABLED- Missing 'SkinsRestorer' Plugin" to console  
+            send "<white>[<gray>Changed<white>] <red>DISABLED- Missing 'SkinsRestorer' Plugin" to ops and console 
         else:
-            send "<white>[<gray>Changed<white>] <lime>Successfully Loaded Changed" to console  
+            send "<white>[<gray>Changed<white>] <lime>Successfully Loaded Changed" to ops and console
             set {enabled_changed} to true
 
     else if {dep_check_changed} is false:                      
-        send "<white>[<gray>Changed<white>] <red>[Changed] was loaded without dependency check!" to console
-        send "<white>[<gray>Changed<white>] <red>That may lead to bad consequences..." to console          
+        send "<white>[<gray>Changed<white>] <red>[Changed] was loaded without dependency check!" to ops and console
+        send "<white>[<gray>Changed<white>] <red>That may lead to bad consequences..." to ops and console         
         set {enabled_changed} to true
 
 #+-----------------------------------------------------------------------------------+
@@ -947,182 +947,3 @@ command /anarchy:
         send title "<red>Saving..." with subtitle "<yellow>Player has been transitioned to server 'SMP_2'"
         connect player to server "smp_2"  
 
-#+-----------------------------------------------------------------------------------+
-#|                                                                                   |
-#|   Changed                                                                         |
-#|                                                                                   |
-#+-----------------------------------------------------------------------------------+
-
-#=====================================================================================
-#COMMANDS
-#=====================================================================================
-command /transfur:
-    usage: /transfur <black|white|shork|snep>
-    cooldown: 0 seconds
-    aliases: /trnsf
-    executable by: players
-    trigger:
-        if {dep_check_changed} is true:
-            trnsf_type(player)
-        else:
-            send "<white>[<cyan>EssentialsL<white>] <red> This feature is disabled!"
-
-
-command untransfur:
-    usage: /untransfur
-    cooldown: 0 seconds
-    aliases: /untf
-    executable by: players 
-    trigger:
-        if {transfur_type::%uuid of player%} is set:
-            delete {transfur_type::%uuid of player%}
-            execute console command "attribute %player% minecraft:scale base reset"
-            execute console command "attribute %player% minecraft:movement_speed base reset"
-            execute console command "attribute %player% minecraft:attack_damage base reset"
-            execute console command "attribute %player% minecraft:attack_knockback base reset"
-            execute console command "attribute %player% minecraft:jump_strength base reset"
-            execute console command "attribute %player% minecraft:max_health base reset"
-            execute player command "skin clear"
-
-#=====================================================================================
-#   GUI LOGIC
-#=====================================================================================
-function trnsf_type(p: player): #GUI transfur Fuction
-    set {_gui} to chest inventory with 5 rows named "Transfur"
-
-    loop integers from 0 to 44:
-        set slot loop-integer of {_gui} to gray stained glass pane named " "
-
-    set slot 19 of {_gui} to black concrete named "<grey>Black Transfur"
-    set slot 21 of {_gui} to white concrete named "<white>White Transfur"
-    set slot 23 of {_gui} to light blue concrete named "<aqua>Shork Transfur"
-    set slot 25 of {_gui} to light gray concrete named "<gray>Snep Transfur"
-
-    open {_gui} to {_p}
-
-on inventory click: #GUI Task
-    if name of event-inventory is "Transfur":
-        cancel event
-
-        if clicked inventory is player's inventory:
-            stop
-
-        if clicked slot is 19:
-            set {transfur_type::%uuid of player%} to "black"
-            execute console command "attribute %player% minecraft:scale base set 1.15"
-            execute player command "skin url %{black_url}%"
-            execute console command "attribute %player% minecraft:movement_speed base set 0.15"
-            execute console command "attribute %player% minecraft:attack_damage base set 1.7"
-            execute console command "attribute %player% minecraft:attack_knockback base set 2"
-            execute console command "attribute %player% minecraft:jump_strength base set 0.5"
-            execute console command "attribute %player% minecraft:max_health base set 40"
-            execute console command "effect give %player% minecraft:regeneration 5 255 true"
-            close player's inventory
-
-        else if clicked slot is 21:
-            set {transfur_type::%uuid of player%} to "white"
-            execute console command "attribute %player% minecraft:scale base set 1.15"
-            execute player command "skin url %{white_url}%"
-            execute console command "attribute %player% minecraft:movement_speed base set 0.15"
-            execute console command "attribute %player% minecraft:attack_damage base set 1.7"
-            execute console command "attribute %player% minecraft:attack_knockback base set 2"
-            execute console command "attribute %player% minecraft:jump_strength base set 0.5"
-            execute console command "attribute %player% minecraft:max_health base set 40"
-            execute console command "effect give %player% minecraft:regeneration 5 255 true"
-            close player's inventory
-
-        else if clicked slot is 23:
-            set {transfur_type::%uuid of player%} to "shork"
-            execute console command "attribute %player% minecraft:scale base set 1.2"
-            execute player command "skin url %{shork_url}%"
-            execute console command "attribute %player% minecraft:movement_speed base set 0.15"
-            execute console command "attribute %player% minecraft:attack_damage base set 1.7"
-            execute console command "attribute %player% minecraft:attack_knockback base set 2"
-            execute console command "attribute %player% minecraft:jump_strength base set 0.5"
-            execute console command "attribute %player% minecraft:max_health base set 40"
-            execute console command "attribute %player% minecraft:water_movement_efficiency base set 0.5"
-            execute console command "effect give %player% minecraft:regeneration 5 255 true"
-            close player's inventory
-
-        else if clicked slot is 25:
-            set {transfur_type::%uuid of player%} to "snep"
-            execute console command "attribute %player% minecraft:scale base set 1.15"
-            execute player command "skin url %{snep_url}%"
-            execute console command "attribute %player% minecraft:movement_speed base set 0.2"
-            execute console command "attribute %player% minecraft:attack_damage base set 1.7"
-            execute console command "attribute %player% minecraft:attack_knockback base set 2"
-            execute console command "attribute %player% minecraft:jump_strength base set 0.6"
-            execute console command "attribute %player% minecraft:max_health base set 26"
-            execute console command "effect give %player% minecraft:regeneration 5 255 true"
-            close player's inventory
-
-
-#=====================================================================================
-#   DEATH LOGIC
-#=====================================================================================
-on death of player:
-    if attacker is not a player:
-        stop
-
-    if {transfur_type::%uuid of attacker%} is not set:
-        stop
-
-    set {_type} to {transfur_type::%uuid of attacker%}
-    set {_v} to victim
-
-    set {transfur_type::%uuid of {_v}%} to {_type}
-
-    if {_type} is "black":
-        execute console command "attribute %{_v}% minecraft:scale base set 1.15"
-        make {_v} execute command "skin url %{black_url}%"
-        execute console command "attribute %{_v}% minecraft:movement_speed base set 0.15"
-        execute console command "attribute %{_v}% minecraft:attack_damage base set 1.7"
-        execute console command "attribute %{_v}% minecraft:attack_knockback base set 2"
-        execute console command "attribute %{_v}% minecraft:jump_strength base set 0.5"
-        execute console command "attribute %{_v}% minecraft:max_health base set 40"
-
-    else if {_type} is "white":
-        execute console command "attribute %{_v}% minecraft:scale base set 1.15"
-        make {_v} execute command "skin url %{white_url}%"
-        execute console command "attribute %{_v}% minecraft:movement_speed base set 0.15"
-        execute console command "attribute %{_v}% minecraft:attack_damage base set 1.7"
-        execute console command "attribute %{_v}% minecraft:attack_knockback base set 2"
-        execute console command "attribute %{_v}% minecraft:jump_strength base set 0.5"
-        execute console command "attribute %{_v}% minecraft:max_health base set 40"
-
-    else if {_type} is "shork":
-        execute console command "attribute %{_v}% minecraft:scale base set 1.2"
-        make {_v} execute command "skin url %{shork_url}%"
-        execute console command "attribute %{_v}% minecraft:movement_speed base set 0.15"
-        execute console command "attribute %{_v}% minecraft:attack_damage base set 1.7"
-        execute console command "attribute %{_v}% minecraft:attack_knockback base set 2"
-        execute console command "attribute %{_v}% minecraft:jump_strength base set 0.5"
-        execute console command "attribute %{_v}% minecraft:max_health base set 40"
-        execute console command "attribute %{_v}% minecraft:water_movement_efficiency base set 0.5"
-
-    else if {_type} is "snep":
-        execute console command "attribute %{_v}% minecraft:scale base set 1.15"
-        make {_v} execute command "skin url %{snep_url}%"
-        execute console command "attribute %{_v}% minecraft:movement_speed base set 0.2"
-        execute console command "attribute %{_v}% minecraft:attack_damage base set 1.7"
-        execute console command "attribute %{_v}% minecraft:attack_knockback base set 2"
-        execute console command "attribute %{_v}% minecraft:jump_strength base set 0.6"
-        execute console command "attribute %{_v}% minecraft:max_health base set 26"
-
-    execute console command "effect give %{_v}% minecraft:regeneration 5 255 true"
-#=====================================================================================
-#   ADMIN COMMANDS
-#=====================================================================================
-command /opuntransfur:
-    permission: op
-    aliases: /opuntrnsf
-    trigger:
-        if {transfur_type::%uuid of player%} is set:
-            delete {transfur_type::%uuid of player%}
-            execute console command "attribute %player% minecraft:scale base reset"
-            execute console command "attribute %player% minecraft:movement_speed base reset"
-            execute console command "attribute %player% minecraft:attack_damage base reset"
-            execute console command "attribute %player% minecraft:attack_knockback base reset"
-            execute console command "attribute %player% minecraft:jump_strength base reset"
-            execute console command "attribute %player% minecraft:max_health base reset"
-            execute player command "skin clear"
