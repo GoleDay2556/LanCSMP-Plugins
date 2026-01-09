@@ -77,7 +77,7 @@ on load:
 
 #Changed
     if {dep_check_changed} is true:
-        if plugin "SkinsRestorer" is disabled:
+        if plugin "skinsrestorer" is disabled:
             set {enabled_changed} to false
             send "<white>[<gray>Changed<white>] <red>DISABLED- Missing 'SkinsRestorer' Plugin" to console  
         else:
