@@ -8,7 +8,7 @@
 #      _\/\\\_____________\////////\\\_\////////\\\_\//\\///////___\/\\\___\/\\\____\/\\\_/\\__\/\\\__/\\\/////\\\_____\/\\\____\////////\\\_\/\\\_____________  
 #       _\/\\\\\\\\\\\\\\\__/\\\\\\\\\\__/\\\\\\\\\\__\//\\\\\\\\\\_\/\\\___\/\\\____\//\\\\\___\/\\\_\//\\\\\\\\/\\__/\\\\\\\\\__/\\\\\\\\\\_\/\\\\\\\\\\\\\\\_ 
 #        _\///////////////__\//////////__\//////////____\//////////__\///____\///______\/////____\///___\////////\//__\/////////__\//////////__\///////////////__
-#V 2.5
+#V 2.7
 
 #=====================================================================================
 #  CONFIG
@@ -17,7 +17,7 @@ on load:
     set {dep_check_economy} to true #The dependency check flag. DO NOT TOUCH
     set {dep_check_transfer} to true #The dependency check flag. DO NOT TOUCH
     set {dep_check_auth} to true #The dependency check flag. DO NOT TOUCH
-    set {version} to "V 2.5"
+    set {version} to "V 2.7 pre release"
 #=====================================================================================
 #AUTO LOAD, DO NOT TOUCH!
 #=====================================================================================
@@ -38,7 +38,6 @@ on load:
     execute console command "team modify MODERATOR color red"
     execute console command "team modify MODERATOR prefix MODERATOR_"
     
-    wait 1 second
     send "[EssentialsL] __/\\\\\\\\\\\\\\\____________________________________________________________________________________________/\\\\\\__________________/\\\_____________" to console
     send "[EssentialsL]  _\/\\\///////////____________________________________________________________________________________________\////\\\_________________\/\\\_____________" to console
     send "[EssentialsL]   _\/\\\________________________________________________________________________/\\\_______/\\\___________________\/\\\_________________\/\\\_____________" to console
@@ -52,10 +51,12 @@ on load:
 #Economy
     if {dep_check_economy} is true:
         set {enabled_economy} to true
+        wait 1 second
         send "<white>[<green>Economy<white>] <lime>Successfully Loaded Economy" to ops and console
 
     else:
         set {enabled_economy} to true
+        wait 1 second
         send "<white>[<green>Economy<white>] <red>[Economy] was loaded without dependency check!" to ops and console
         send "<white>[<green>Economy<white>] <red>That may lead to bad consequences..." to ops and console
 
@@ -63,30 +64,37 @@ on load:
     if {dep_check_transfer} is true:
         if plugin "Skungee" is enabled:
             set {enabled_transfer} to true
+            wait 1 second
             send "<white>[<pink>Transfer<white>] <lime>Successfully Loaded Transfer" to ops and console
         else:
+            wait 1 second
             send "<white>[<pink>Transfer<white>] <red>DISABLED- Missing 'SkungeeVelocity' Plugin" to ops and console
             set {enabled_transfer} to false        
 
     else if {dep_check_transfer} is false:
         set {enabled_transfer} to true
+        wait 1 second
         send "<white>[<pink>Transfer<white>] <red>[Transfer] was loaded without dependency check!" to ops and console
         send "<white>[<pink>Transfer<white>] <red>That may lead to bad consequences..." to ops and console
 
-
-#Changed
-    if {dep_check_changed} is true:
-        if plugin "skinsrestorer" is disabled:
-            set {enabled_changed} to false
-            send "<white>[<gray>Changed<white>] <red>DISABLED- Missing 'SkinsRestorer' Plugin" to ops and console 
+#Auth
+on load:
+    if {dep_check_auth} is true:
+        if plugin "skript-yaml" is enabled:
+            set {enabled_auth} to true
+            wait 1 second
+            send "<white>[<red>Auth<white>] <lime>Successfully loaded Auth" to ops and console
         else:
-            send "<white>[<gray>Changed<white>] <lime>Successfully Loaded Changed" to ops and console
-            set {enabled_changed} to true
+            set {enabled_auth} to false
+            wait 1 second
+            send "<white>[<red>Auth<white>] <red>DISABLED - Missing 'skript-yaml' Plugin" to ops and console
+    else:
+        set {enabled_auth} to true
+        wait 1 second
+        send "<white>[<red>Auth<white>] <yellow>Loaded without dependency check!" to ops and console
+        send "<white>[<red>Auth<white>] <red>This may lead to bad consequences..." to ops and console
 
-    else if {dep_check_changed} is false:                      
-        send "<white>[<gray>Changed<white>] <red>[Changed] was loaded without dependency check!" to ops and console
-        send "<white>[<gray>Changed<white>] <red>That may lead to bad consequences..." to ops and console         
-        set {enabled_changed} to true
+
 
 #+-----------------------------------------------------------------------------------+
 #|                                                                                   |
@@ -810,6 +818,177 @@ on join:
         execute console command "team join PLAYER %player%"
         send "<lime>Welcome back, <cyan><bold>%player%" to player
 
+#=====================================================================================
+#  FUNCTIONS
+#=====================================================================================
+#Page 0
+function control_panel_0(p: player):
+    set {_gui0} to chest inventory with 6 rows named "<white>[<cyan>EssentialsL<white>] Admin Panel"
+
+    loop integers from 0 to 53:
+        set slot loop-integer of {_gui0} to black stained glass pane named " "
+
+    set slot 0 of {_gui0} to oak sign named "<bold>/home"
+    set slot 2 of {_gui0} to oak sign named "<bold>/music"
+    set slot 4 of {_gui0} to oak sign named "<bold>/kys"
+    set slot 6 of {_gui0} to oak sign named "<bold>Teams"
+    set slot 40 of {_gui0} to gray stained glass pane named " "
+
+    if {home} is true:
+        set slot 9 of {_gui0} to lime concrete named "<green>ON"
+    else:
+        set slot 18 of {_gui0} to red concrete named "<red>OFF"
+
+    if {music} is true:
+        set slot 11 of {_gui0} to lime concrete named "<green>ON"
+    else:
+        set slot 20 of {_gui0} to red concrete named "<red>OFF"
+
+    if {kys} is true:
+        set slot 13 of {_gui0} to lime concrete named "<green>ON"
+    else:
+        set slot 22 of {_gui0} to red concrete named "<red>OFF"
+
+    if {teams} is true:
+        set slot 15 of {_gui0} to lime concrete named "<green>ON"
+    else:
+        set slot 24 of {_gui0} to red concrete named "<red>OFF"
+
+    if {home} and {music} and {kys} and {teams} are true:
+        set slot 39 of {_gui0} to lime concrete named "<green>ON"
+    else:
+        set slot 41 of {_gui0} to red concrete named "<red>OFF"
+
+
+    open {_gui0} to {_p}
+#Page 1
+function control_panel_1(p: player):
+    set {_gui1} to chest inventory with 6 rows named "<white>[<cyan>EssentialsL<white>] Admin Panel"
+    loop integers from 0 to 53:
+        set slot loop-integer of {_gui1} to black stained glass pane named " "
+
+    set slot 10 of {_gui1} to yellow concrete named "<yellow>Reload"
+    set slot 16 of {_gui1} to player head named "<yellow>Online players: %online player count%"
+    set slot 28 of {_gui1} to red concrete named "<red>Kick every player"
+    
+
+    open {_gui1} to {_p}
+#=====================================================================================
+#  OTHER SHIT
+#=====================================================================================
+on inventory click:
+    if name of event-inventory is "<white>[<cyan>EssentialsL<white>] Admin Panel":
+        cancel event 
+
+    if clicked inventory is player's inventory:
+        stop
+
+    if clicked slot is 10:
+        execute player command "essentialsl/reload"
+
+    if clicked slot is 28:
+        if player is not op:
+            kick all players
+
+on inventory click:
+    if name of event-inventory is "<white>[<cyan>EssentialsL<white>] Admin Panel":
+        cancel event
+
+    if clicked inventory is player's inventory:
+        stop
+    #Home
+    if clicked slot is 9:
+        set {home} to false
+        set slot 18 of {_gui0} to red concrete named "<red>OFF"
+        set slot 9 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    if clicked slot is 18:
+        set {home} to true
+        set slot 9 of {_gui0} to lime concrete named "<green>ON"
+        set slot 18 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    #Music
+    if clicked slot is 11:
+        set {music} to false
+        set slot 20 of {_gui0} to red concrete named "<red>OFF"
+        set slot 11 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    if clicked slot is 20:
+        set {music} to true
+        set slot 11 of {_gui0} to lime concrete named "<green>ON"
+        set slot 20 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    #Kys
+    if clicked slot is 13:
+        set {kys} to false
+        set slot 22 of {_gui0} to red concrete named "<red>OFF"
+        set slot 13 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    if clicked slot is 22:
+        set {kys} to true
+        set slot 13 of {_gui0} to lime concrete named "<green>ON"
+        set slot 22 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    #teams
+    if clicked slot is 15:
+        set {teams} to false
+        set slot 24 of {_gui0} to red concrete named "<red>OFF"
+        set slot 15 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    if clicked slot is 24:
+        set {teams} to true
+        set slot 15 of {_gui0} to lime concrete named "<green>ON"
+        set slot 24 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    #global
+    if clicked slot is 41:
+        set {music} to true
+        set {home} to true
+        set {kys} to true
+        set {afk} to true
+        set {teams} to true
+        set slot 39 of {_gui0} to lime concrete named "<green>ON"
+        set slot 41 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+    else if clicked slot is 39:
+        set {music} to false
+        set {home} to false
+        set {kys} to false
+        set {afk} to false
+        set {teams} to false
+        set slot 41 of {_gui0} to lime concrete named "<green>ON"
+        set slot 39 of {_gui0} to light gray stained glass pane named " "
+        close player's inventory
+        control_panel_0(player)
+
+
+
+
+
+
+
+#Test
+command panel:
+    trigger:
+        control_panel_1(player)
 
 
 #+-----------------------------------------------------------------------------------+
