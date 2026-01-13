@@ -1,0 +1,153 @@
+#+-----------------------------------------------------------------------------------+
+#|                                                                                   |
+#|   Auth                                                                            |
+#|                                                                                   |
+#+-----------------------------------------------------------------------------------+
+#Auth
+on load:
+    if script "EssentialsL.sk" is loaded:
+        if plugin "skript-yaml" is enabled:
+            wait 1 second
+            send "<white>[<red>Auth<white>] <lime>Successfully loaded Auth" to ops and console
+    else:
+        set {auth} to false
+        wait 1 second
+        send "<white>[<red>Auth<white>] <red>DISABLED - Unknown Critical Error Occured {CE1}" to ops and console
+        disable script "EL_Auth.sk"
+
+#Register
+command /register <text> <text>:
+    trigger:
+        if {auth} is not true:
+            send "<white>[<red>Auth<white>] <red>This feature is disabled!" to player
+            stop
+
+        if {username::%uuid of player%} is set:
+            send "<red>You are already registered!" to player
+            stop
+
+        set {username::%uuid of player%} to arg-1
+        set {password::%uuid of player%} to arg-2
+        set {register::%uuid of player%} to true
+        set {logged_in::%uuid of player%} to false
+
+        send "<white>[<red>Auth<white>] <green>You have been registered! Use /login <username> <password>" to player
+
+#Login
+command /login <text> <text>:
+    trigger:
+        if {auth} is not true:
+            send "<white>[<red>Auth<white>] <red>This feature is disabled!" to player
+            stop
+
+        if {username::%uuid of player%} is not set:
+            send "<white>[<red>Auth<white>] <red>You are not registered! Use /register <username> <password>" to player
+            stop
+
+        if {logged_in::%uuid of player%} is true:
+            send "<yellow>You are already logged in!" to player
+            stop
+
+        if arg-1 is not {username::%uuid of player%}:
+            send "<red>Wrong username!" to player
+            stop
+
+        if arg-2 is not {password::%uuid of player%}:
+            send "<red>Wrong password!" to player
+            stop
+
+        set {logged_in::%uuid of player%} to true
+        send "<green>Successfully logged in!" to player
+        send title "<green>Successfully logged in" to player
+        send "<white>[<red>Auth<white>] %player% has logged in" to console
+
+#Logout
+command /logout:
+    trigger:
+        if {auth} is not true:
+            send "<white>[<red>Auth<white>] <red>This feature is disabled!" to player
+            stop
+        send title "<green>Please wait..."
+        wait 2 second
+        send title "<green>5" with subtitle "<yellow>Logging out..."
+        play sound "block.note_block.pling" to player
+        wait 1 second
+        send title "<green>4" with subtitle "<yellow>Logging out..."
+        play sound "block.note_block.pling" to player
+        wait 1 second
+        send title "<yellow>3" with subtitle "<yellow>Logging out..."
+        play sound "block.note_block.pling" to player
+        wait 1 second
+        send title "<red>2" with subtitle "<yellow>Logging out..."
+        play sound "block.note_block.pling" to player
+        wait 1 second
+        send title "<red>1" with subtitle "<yellow>Logging out..."
+        play sound "block.note_block.pling" to player
+        wait 0.5 seconds
+        send title "<red>Saving..." with subtitle "<yellow>Logged out"
+        play sound "block.note_block.pling" to player
+        wait 0.5 seconds
+        set {logged_in::%uuid of player%} to false
+        kick player due to "<bold><green>You have been logged out of the system"
+        send "<white>[<red>Auth<white>] %player% has logged out" to console
+#Unregister
+command /unregister:
+    trigger:
+        if {auth} is not true:
+            send "<white>[<red>Auth<white>] <red>This feature is disabled!" to player
+            stop
+        send title "<green>Please wait..."
+        wait 2 second
+        send title "<green>5" with subtitle "<red>Unregistering"
+        play sound "block.note_block.pling" to player
+        wait 1 second
+        send title "<green>4" with subtitle "<red>Unregistering"
+        play sound "block.note_block.pling" to player
+        wait 1 second
+        send title "<yellow>3" with subtitle "<red>Unregistering"
+        play sound "block.note_block.pling" to player
+        wait 1 second
+        send title "<red>2" with subtitle "<red>Unregistering"
+        play sound "block.note_block.pling" to player
+        wait 1 second
+        send title "<red>1" with subtitle "<red>Unregistering"
+        play sound "block.note_block.pling" to player
+        wait 0.5 seconds
+        send title "<red>Saving..." with subtitle "<red>Unregistered"
+        play sound "block.note_block.pling" to player 
+        wait 0.5 seconds
+        delete {username::%uuid of player%}
+        set {register::%uuid of player%} to false
+        set {logged_in::%uuid of player%} to false
+        kick player due to "<bold><red>You have been unregistered out of the system"
+        send "<white>[<red>Auth<white>] %player% has unregistered" to console
+
+
+on player move:
+    if {auth} is not true:
+        stop
+    if {register::%uuid of player%} is false:
+        send title "<yellow>Type /register" to player
+        cancel event     
+    else if {logged_in::%uuid of player%} is false:
+        send title "<green>Type /login" to player
+        cancel event
+
+on block break:
+    if {auth} is not true:
+        stop
+    if {register::%uuid of player%} is false:
+        cancel event     
+    else if {logged_in::%uuid of player%} is false:
+        cancel event
+  
+
+on quit:
+    if {auth} is not true:
+        stop
+    set {_uuid} to uuid of player
+    set {_name} to name of player
+    wait 5 minutes
+    if {_uuid} is offline:
+        set {logged_in::%{_uuid}%} to false
+        send "<white>[<red>Auth<white>] %{_name}% has logged out" to console
