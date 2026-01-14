@@ -13,7 +13,6 @@ on load:
         
 
     else:
-        set {auth} to false
         wait 1 second
         send "<white>[<red>Auth<white>] <red>DISABLED - Unknown Critical Error Occured {CE1}" to ops and console
         disable script "EL_Auth.sk"
@@ -23,7 +22,7 @@ on load:
 #Register
 command /register <text> <text>:
     trigger:
-        if {auth} is not true:
+        if {register} is not true:
             send "<white>[<red>Auth<white>] <red>This feature is disabled!" to player
             stop
 
@@ -33,7 +32,7 @@ command /register <text> <text>:
 
         set {username::%uuid of player%} to arg-1
         set {password::%uuid of player%} to arg-2
-        set {register::%uuid of player%} to true
+        set {registered::%uuid of player%} to true
         set {logged_in::%uuid of player%} to false
 
         send "<white>[<red>Auth<white>] <green>You have been registered! Use /login <username> <password>" to player
@@ -41,7 +40,7 @@ command /register <text> <text>:
 #Login
 command /login <text> <text>:
     trigger:
-        if {auth} is not true:
+        if {login} is not true:
             send "<white>[<red>Auth<white>] <red>This feature is disabled!" to player
             stop
 
@@ -69,7 +68,7 @@ command /login <text> <text>:
 #Logout
 command /logout:
     trigger:
-        if {auth} is not true:
+        if {logout} is not true:
             send "<white>[<red>Auth<white>] <red>This feature is disabled!" to player
             stop
         send title "<green>Please wait..."
@@ -98,7 +97,7 @@ command /logout:
 #Unregister
 command /unregister:
     trigger:
-        if {auth} is not true:
+        if {unreg} is not true:
             send "<white>[<red>Auth<white>] <red>This feature is disabled!" to player
             stop
         send title "<green>Please wait..."
@@ -122,15 +121,14 @@ command /unregister:
         play sound "block.note_block.pling" to player 
         wait 0.5 seconds
         delete {username::%uuid of player%}
-        set {register::%uuid of player%} to false
+        delete {password::%uuid of player%}
+        set {registered::%uuid of player%} to false
         set {logged_in::%uuid of player%} to false
         kick player due to "<bold><red>You have been unregistered out of the system"
         send "<white>[<red>Auth<white>] %player% has unregistered" to console
 
 
 on player move:
-    if {auth} is not true:
-        stop
     if {register::%uuid of player%} is false:
         send title "<yellow>Type /register" to player
         cancel event     
@@ -139,8 +137,6 @@ on player move:
         cancel event
 
 on block break:
-    if {auth} is not true:
-        stop
     if {register::%uuid of player%} is false:
         cancel event     
     else if {logged_in::%uuid of player%} is false:
@@ -148,7 +144,7 @@ on block break:
   
 
 on quit:
-    if {auth} is not true:
+    if {auto_unlog} is not true:
         stop
     set {_uuid} to uuid of player
     set {_name} to name of player

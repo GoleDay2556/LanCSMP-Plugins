@@ -19,56 +19,8 @@ on load:
 #=====================================================================================
 #  ADMIN COMMANDS
 #=====================================================================================
-#Page 0
-function control_panel_1(p: player):
-    set {_gui0} to chest inventory with 6 rows named "<white>[<cyan>EssentialsL<white>] Admin Panel (Page 1)"
-
-    loop integers from 0 to 53:
-        set slot loop-integer of {_gui0} to black stained glass pane named " "
-
-
-    set slot 0 of {_gui0} to oak sign named "<bold>/home"
-    set slot 2 of {_gui0} to oak sign named "<bold>/music"
-    set slot 4 of {_gui0} to oak sign named "<bold>/kys"
-    set slot 6 of {_gui0} to oak sign named "<bold>Teams"
-    set slot 8 of {_gui0} to oak sign named "<bold>/afk"
-    set slot 40 of {_gui0} to light gray stained glass pane named " "
-    set slot 44 of {_gui0} to gray carpet named "Main Page"
-
-    if {home} is true:
-        set slot 9 of {_gui0} to lime concrete named "<green>ON"
-    else:
-        set slot 18 of {_gui0} to red concrete named "<red>OFF"
-
-    if {music} is true:
-        set slot 11 of {_gui0} to lime concrete named "<green>ON"
-    else:
-        set slot 20 of {_gui0} to red concrete named "<red>OFF"
-
-    if {kys} is true:
-        set slot 13 of {_gui0} to lime concrete named "<green>ON"
-    else:
-        set slot 22 of {_gui0} to red concrete named "<red>OFF"
-
-    if {teams} is true:
-        set slot 15 of {_gui0} to lime concrete named "<green>ON"
-    else:
-        set slot 24 of {_gui0} to red concrete named "<red>OFF"
-
-    if {afk} is true:
-        set slot 17 of {_gui0} to lime concrete named "<green>ON"
-    else:
-        set slot 26 of {_gui0} to red concrete named "<red>OFF"
-
-    if {home} and {music} and {kys} and {teams} are true:
-        set slot 39 of {_gui0} to lime concrete named "<green>ON"
-    else:
-        set slot 41 of {_gui0} to red concrete named "<red>OFF"
-    
-
-    open {_gui0} to {_p}
-
-#Page 1
+#=====================================================================================
+# essentialsl GUI page 0
 function control_panel_1(p: player):
     set {_gui1} to chest inventory with 6 rows named "<white>[<cyan>EssentialsL<white>] Admin Panel (Main Page)"
     loop integers from 0 to 26:
@@ -86,10 +38,138 @@ function control_panel_1(p: player):
     set slot 39 of {_gui1} to red concrete named "<red>Stop"
 
     open {_gui1} to {_p}
+
+#=====================================================================================
+# essentialsl GUI page 1
+function control_panel_1(p: player):
+    set {_gui0} to chest inventory with 6 rows named "<white>[<cyan>EssentialsL<white>] Admin Panel (Page 1)"
+
+    loop integers from 0 to 53:
+        set slot loop-integer of {_gui0} to black stained glass pane named " "
+
+
+    set slot 0 of {_gui0} to oak sign named "<bold>/home"
+    set slot 2 of {_gui0} to oak sign named "<bold>/music"
+    set slot 4 of {_gui0} to oak sign named "<bold>/kys"
+    set slot 6 of {_gui0} to oak sign named "<bold>Teams"
+    set slot 8 of {_gui0} to oak sign named "<bold>/afk"
+    set slot 40 of {_gui0} to light gray stained glass pane named " "
+    set slot 44 of {_gui0} to gray carpet named "Main Page"
+
+    if {home} is true:
+        set slot 9 of {_gui0} to lime concrete named "<green>ON"
+    else if {home} is false:
+        set slot 18 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 18 of {_gui0} to yellow concrete named "<yellow>ERROR"
+
+    if {music} is true:
+        set slot 11 of {_gui0} to lime concrete named "<green>ON"
+    else if {music} is false:
+        set slot 20 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 20 of {_gui0} to yellow concrete named "<yellow>ERROR"
+
+    if {kys} is true:
+        set slot 13 of {_gui0} to lime concrete named "<green>ON"
+    else if {kys} is false:
+        set slot 22 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 22 of {_gui0} to yellow concrete named "<yellow>ERROR"
+
+    if {teams} is true:
+        set slot 15 of {_gui0} to lime concrete named "<green>ON"
+    else if {teams} is false:
+        set slot 24 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 24 of {_gui0} to yellow concrete named "<yellow>ERROR"
+
+    if {afk} is true:
+        set slot 17 of {_gui0} to lime concrete named "<green>ON"
+    else if {afk} is false:
+        set slot 26 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 26 of {_gui0} to yellow concrete named "<yellow>ERROR"
+
+    if {home} and {music} and {kys} and {teams} are true:
+        set slot 39 of {_gui0} to lime concrete named "<green>ON"
+    else if {home} and {music} and {kys} and {teams} are false:
+        set slot 41 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 40 of {_gui0} to yellow concrete named "<yellow>ERROR"
+    
+    
+
+    open {_gui0} to {_p}
+
+#================================================================================
+# AUTH
+function auth_panel(p: player):
+    set {_gui2} to chest inventory with 3 rows named "<white>[<red>Auth<white>] Panel"
+
+    loop integers from 0 to 26:
+        set slot loop-integer of {_gui2} to light gray stained glass pane named " "
+
+
+
+    set slot 0 of {_gui2} to oak sign named "<bold>/register"
+    set slot 2 of {_gui2} to oak sign named "<bold>/login"
+    set slot 4 of {_gui2} to oak sign named "<bold>/logout"
+    set slot 6 of {_gui2} to oak sign named "<bold>/unregister"
+    set slot 8 of {_gui2} to oak sign named "<bold>Auto Logout"
+    set slot 40 of {_gui2} to light gray stained glass pane named " "
+
+
+    if {register} is true:
+        set slot 9 of {_gui2} to lime concrete named "<green>ON"
+    else if {register} is false:
+        set slot 18 of {_gui2} to red concrete named "<red>OFF"
+    else:
+        set slot 18 of {_gui2} to yellow concrete named "<yellow>ERROR"
+
+    if {login} is true:
+        set slot 11 of {_gui2} to lime concrete named "<green>ON"
+    else if {login} is false:
+        set slot 20 of {_gui2} to red concrete named "<red>OFF"
+    else:
+        set slot 20 of {_gui2} to yellow concrete named "<yellow>ERROR"
+
+    if {logout} is true:
+        set slot 13 of {_gui0} to lime concrete named "<green>ON"
+    else if {logout} is false:
+        set slot 22 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 22 of {_gui0} to yellow concrete named "<yellow>ERROR"
+
+    if {unreg} is true:
+        set slot 15 of {_gui0} to lime concrete named "<green>ON"
+    else if {unreg} is false:
+        set slot 24 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 24 of {_gui0} to yellow concrete named "<yellow>ERROR"
+    
+    if {auto_unlog} is true:
+        set slot 17 of {_gui0} to lime concrete named "<green>ON"
+    else if {auto_unlog} is false:
+        set slot 26 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 26 of {_gui0} to yellow concrete named "<yellow>ERROR"
+
+    if {register} and {login} and {logout} and {unreg} and {auto_unlog} are true:
+        set slot 39 of {_gui0} to lime concrete named "<green>ON"
+    else if {register} and {login} and {logout} and {unreg} and {auto_unlog} are false:
+        set slot 41 of {_gui0} to red concrete named "<red>OFF"
+    else:
+        set slot 40 of {_gui0} to yellow concrete named "<yellow>ERROR"
+        
+    open {_gui2} to {_p}
+
 #=====================================================================================
 #  LOGIC
 #=====================================================================================
-#Main Page
+#=====================================================================================
+# essentialsl GUI page 0
+
 on inventory click:
     if name of event-inventory is "<white>[<cyan>EssentialsL<white>] Admin Panel (Main Page)":
         if clicked inventory is player's inventory:
@@ -113,7 +193,8 @@ on inventory click:
 
         if clicked slot is 39:
             stop server
-#Feature page 1
+##=====================================================================================
+# essentialsl GUI page 1
 on inventory click:
     if name of event-inventory is "<white>[<cyan>EssentialsL<white>] Admin Panel (Page 1)":
         if clicked inventory is player's inventory:
@@ -199,8 +280,87 @@ on inventory click:
         if clicked slot is 44:
             close player's inventory
             control_panel_1(player)
+#=====================================================================================
+# AUTH GUI
+on inventory click:
+    if name of event-inventory is "<white>[<red>Auth<white>] Panel":
+        if clicked inventory is player's inventory:
+            stop
+        cancel event
 
+        # Home
+        if clicked slot is 9:
+            set {register} to false
+            close player's inventory
+            auth_panel(player)
 
+        if clicked slot is 18:
+            set {register} to true
+            close player's inventory
+            auth_panel(player)
+
+        # Music
+        if clicked slot is 11:
+            set {login} to false
+            close player's inventory
+            auth_panel(player)
+
+        if clicked slot is 20:
+            set {login} to true
+            close player's inventory
+            auth_panel(player)
+
+        # Kys
+        if clicked slot is 13:
+            set {logout} to false
+            close player's inventory
+            auth_panel(player)
+
+        if clicked slot is 22:
+            set {logout} to true
+            close player's inventory
+            auth_panel(player)
+
+        # Teams
+        if clicked slot is 15:
+            set {unreg} to false
+            close player's inventory
+            auth_panel(player)
+
+        if clicked slot is 24:
+            set {unreg} to true
+            close player's inventory
+            auth_panel(player)
+
+        # Afk
+        if clicked slot is 17:
+            set {auto_unlog} to false
+            close player's inventory
+            auth_panel(player)
+
+        if clicked slot is 26:
+            set {auto_unlog} to true
+            close player's inventory
+            auth_panel(player)
+
+        # Global
+        if clicked slot is 41:
+            set {register} to true
+            set {login} to true
+            set {logout} to true
+            set {unreg} to true
+            set {auto_unlog} to true
+            close player's inventory
+            auth_panel(player)
+
+        else if clicked slot is 39:
+            set {register} to false
+            set {login} to false                
+            set {logout} to false
+            set {unreg} to false
+            set {auto_unlog} to false
+            close player's inventory
+            auth_panel(player)
 
 #=====================================================================================
 #  ADMIN COMMANDS
