@@ -8,17 +8,16 @@
 #      _\/\\\_____________\////////\\\_\////////\\\_\//\\///////___\/\\\___\/\\\____\/\\\_/\\__\/\\\__/\\\/////\\\_____\/\\\____\////////\\\_\/\\\_____________  
 #       _\/\\\\\\\\\\\\\\\__/\\\\\\\\\\__/\\\\\\\\\\__\//\\\\\\\\\\_\/\\\___\/\\\____\//\\\\\___\/\\\_\//\\\\\\\\/\\__/\\\\\\\\\__/\\\\\\\\\\_\/\\\\\\\\\\\\\\\_ 
 #        _\///////////////__\//////////__\//////////____\//////////__\///____\///______\/////____\///___\////////\//__\/////////__\//////////__\///////////////__
-#V 3.5
-
+#V 3.7 - Lightweight Skript-based EssentialsX parody plugin.
 #=====================================================================================
 #  CONFIG
 #=====================================================================================
 on load:
-    set {el_version} to "V 3.5"
+    set {el_version} to "V 3.7" # EssentialsL Version DO NOT TOUCH!
+    set {debug} to false # Enable debug messages (true/false)
 #=====================================================================================
 #AUTO LOAD, DO NOT TOUCH!
 #=====================================================================================
-#EssentialsL
     execute console command "team add PLAYER"
     execute console command "team modify PLAYER color aqua"
     execute console command "team modify PLAYER prefix PLAYER_"
@@ -62,7 +61,7 @@ on load:
 # Enable/disable feature
 command /feature <text> [<text>]:
     permission: op
-    usage: &cUsage: /feature <enable/disable> <music/home/kys/teams/afk/all>
+    usage: &cUsage: /feature <enable/disable> <{featurename}/all>
     trigger:
 
         if arg-1 is "enable":
@@ -154,17 +153,20 @@ command /ban <player> [<text>]:
         set {_banned} to arg-1
         set {_reason} to arg-2
 
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Banning player %{_banned}% for reason %{_reason}%" to console
+
         if {_banned} is player:
             if {_banned} is op:
-                send "<white>[<cyan>EssentialsL<white>] <red>Can't ban player. <yellow>Error code: ERR_PL_IS_OP" to player
+                send "<white>[<cyan>EssentialsL<white>] <red>Can't ban player. <yellow>Error code: ER_0" to player
                 stop
 
         if {_banned} is banned:
-            send "<white>[<cyan>EssentialsL<white>] <red>Can't ban player. <yellow>Error code: ERR_PL_IS_BANNED" to player
+            send "<white>[<cyan>EssentialsL<white>] <red>Can't ban player. <yellow>Error code: ERR_1_BANNED" to player
             stop
 
         if {_reason} is set:
-            ban {_banned} due to "<red><bold>You were banned for: %{_reason}%"
+            ban {_banned} due to "<red><bold>You were %{_reason}%"
 
         send "<yellow>[EssentialsL] <red><bold>%{_banned}% was banned for [%{_reason}%]!" to player
 
@@ -174,13 +176,15 @@ command /ban <player> [<text>]:
 # Unban Player
 command /unban <player>:
     permission: op
-
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Unbanning player %{arg-1}%" to console
+
         if arg-1 is banned:
             execute console command "pardon %arg-1%"
             send "<white>[<cyan>EssentialsL<white>]<lime> %arg-1% has been unbanned!" to player
         else:
-            send "<white>[<cyan>EssentialsL<white>]<red> Can't unban player. <yellow>Error code: ERR_PL_IS_NOT_BANNED" to player
+            send "<white>[<cyan>EssentialsL<white>]<red> Can't unban player. <yellow>Error code: ERR_1_NOTBANNED" to player
 
 # Kick Player
 command /kick <player> [<text>]:
@@ -188,6 +192,8 @@ command /kick <player> [<text>]:
     trigger:
         set {_player} to arg-1
         set {_reason} to arg-2
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Kicking player %{_player}% for reason %{_reason}%" to console
         if arg-1 is set:
             kick {_player} due to "<red>You were kicked for: %{_reason}%"
             send "<white>[<cyan>EssentialsL<white>]<red><bold> %{_player}% was kicked for [%{_reason}%]!" to player
@@ -202,6 +208,8 @@ command /kill <player> [<text>]:
     permission: op
     permission message: &cYou do not have permission to use this command.
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Killing player %{arg-1}%" to console
         if {afk::%player%} is not set:
             if arg-1 is not set:
                 kill player
@@ -218,14 +226,16 @@ command /kill <player> [<text>]:
                 broadcast "<white>[<cyan>EssentialsL<white>] <red>%arg-1% was killed!"
 
         else if {afk::%player%} is set:
-            send "<white>[<cyan>EssentialsL<white>]<red> Can't kill player. <yellow>Error code: ERR_PL_IS_AFK"
+            send "<white>[<cyan>EssentialsL<white>]<red> Can't kill player. <yellow>Error code: ERR_1_IS_AFK"
 
 # SUDO
 command /sudo <text> <text>:
-    usage: <red>/sudo <run> <stop/restart/disable (DISABLES ESSENTIALSL)>
+    usage: <red>/sudo <run> <stop/restart/disable>
     permission: op
     permission message: &cYou do not have permission to use this command.
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Executing sudo command %{arg-1}% %{arg-2}%" to console
         if arg-1 is "run":
             if arg-2 is "stop":
                 broadcast "<white>[<cyan>EssentialsL<white>] <red><bold>!WARNING! <red>SERVER SHUTS DOWN IN 5 SECONDS!"
@@ -249,6 +259,8 @@ command /setjail:
     permission: op
     permission message: &cYou do not have permission to use this command.
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Setting jail location to %{location of player}%" to console
         set {jail.location} to location of player
         send "<white>[<cyan>EssentialsL<white>] <lime>Jail location has been set."
 
@@ -256,6 +268,8 @@ command /deljail:
     permission: op
     permission message: &cYou do not have permission to use this command.
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Deleting jail location" to console
         delete {jail.location}
         send "<white>[<cyan>EssentialsL<white>] <red>Jail location deleted."
 
@@ -264,6 +278,8 @@ command /jail <player>:
     permission: op
     permission message: &cYou do not have permission to use this command.
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Jailing player %{arg-1}%" to console
         if player is not op:
             if {jail.location} is not set:
                 send "<white>[<cyan>EssentialsL<white>] <red>No jail has been set."
@@ -277,7 +293,7 @@ command /jail <player>:
             send "<white>[<cyan>EssentialsL<white>] <yellow>%arg-1% has been jailed."
             
         else:
-            send "<white>[<cyan>EssentialsL<white>] <red>Can't jail player. <yellow>Error code: ERR_PL_IS_OP"
+            send "<white>[<cyan>EssentialsL<white>] <red>Can't jail player. <yellow>Error code: ERR_0"
 
 
 
@@ -285,6 +301,8 @@ command /unjail <player>:
     permission: op
     permission message: &cYou do not have permission to use this command.
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Unjailing player %{arg-1}%" to console
         delete {jailed::%uuid of arg-1%}
         send "<white>[<cyan>EssentialsL<white>] <lime>You have been unjailed." to arg-1
         broadcast "<white>[<cyan>EssentialsL<white>] <yellow>%arg-1% has been unjailed."
@@ -304,12 +322,15 @@ on block break:
 command /tag <player> [<text>]:
     permission: op
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Tagging player %{arg-1}% as %{arg-2}%" to console
         if arg-2 is "moderator":
             set {_team_moderator} to true
             set {moderator::%uuid of arg-1%} to true
             execute console command "team join MODERATOR %arg-1%"
 
-
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Tagging player %{arg-1}% as %{arg-2}%" to console
         if arg-2 is "player":
             set {_team_player} to true
             set {player::%uuid of arg-1%} to true
@@ -342,6 +363,8 @@ command security-on:
     permission: op
     permission message: &cYou do not have permission to use this command.
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Enabling security mode" to console    
         set {security} to true
         broadcast "&aSecurity mode has been enabled." 
         set {music} to false
@@ -356,6 +379,8 @@ command security-on:
 command security-off:
     permission: op
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Disabling security mode" to console
         set {security} to false
         broadcast "&aSecurity mode has been disabled."
         set {music} to true
@@ -536,15 +561,20 @@ command /stats <text>:
 command /sethome:
     executable by: players
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Setting home for %{player}% to %{location of player}%" to console
         if {home} is true:
             set {home::%uuid of player%} to location of player
             send "<white>[<cyan>EssentialsL<white>]<lime> Home set!" to player
         
         if {home} is false:
             send "<white>[<cyan>EssentialsL<white>]<red> This feature is disabled!"
+
 command /delhome:
     executable by: players
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Deleting home for %{player}%" to console  
         if {home} is true:
             delete {home::%uuid of player%}
             send "<white>[<cyan>EssentialsL<white>]<red> Home deleted!" to player
@@ -555,6 +585,8 @@ command /delhome:
 command /home:
     executable by: players
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Teleporting %{player}% to home location" to console
         if {home} is true:
             if {home::%uuid of player%} is not set:
                 send "<white>[<cyan>EssentialsL<white>] <red>You have not set a home!"
@@ -569,6 +601,8 @@ command /home:
 command /kys:
     executable by: players
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Killing %{player}%" to console
         if {kys} is true:
             kill player
 
@@ -579,6 +613,8 @@ command /kys:
 # Music
 command music <text>:
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Playing music disc %{arg-1}%" to console
         if {music} is true:
             if arg-1 is "eleven":
                 execute console command "playsound music_disc.11 master %player% ~ ~ ~ 999999"
@@ -686,10 +722,10 @@ command music <text>:
 
 # AFK Command
 command /afk:
-    cooldown: 5 minutes
-    cooldown message: <red>This command is available in 5 minutes.
     executable by: players
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Toggling AFK status for %{player}%" to console
         if {afk} is true:
             if {afk::%player%} is set:
                 delete {afk::%player%}
@@ -760,6 +796,9 @@ on damage of player:
 
 # Auto team system
 on join:
+    if {debug} is true:
+        send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Assigning team for %{player}%" to console
+
     if {teams} is false:
         send "<white>[<cyan>EssentialsL<white>]<red> This feature is disabled!"
         execute console command "team leave %player%"
@@ -791,6 +830,10 @@ on join:
 
 command /hub:
     trigger:
+
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Transferring %{player}% to server 'Hub'" to console
+
         send title "<green>Please wait..." with subtitle "<yellow>Contacting server 'Hub' "
         wait 1 second
         send title "<green>5" with subtitle "<yellow>Sending to server 'Hub'"
@@ -808,6 +851,9 @@ command /hub:
 
 command /smp:
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Transferring %{player}% to server 'SMP_1'" to console
+
         send title "<green>Please wait..." with subtitle "<yellow>Contacting server 'SMP_1' "
         wait 2 second
         send title "<green>5" with subtitle "<yellow>Sending to server 'SMP_1'"
@@ -825,6 +871,8 @@ command /smp:
 
 command /anarchy:
     trigger:
+        if {debug} is true:
+            send "<white>[<cyan>EssentialsL<white>] <yellow>[DEBUG] <aqua>Transferring %{player}% to server 'SMP_2'" to console
         send title "<green>Please wait..." with subtitle "<yellow>Contacting server 'SMP_2' "
         wait 2 second
         send title "<green>5" with subtitle "<yellow>Sending to server 'SMP_2'"
