@@ -1,0 +1,434 @@
+#     __________________________________________________________
+#    / /                                                   / /\ \
+#    \_\___________________________________________________\_\/ /
+#        / /    _____    __            __                    / /
+#       / /    / ____\  / /           /_/          /\       / /
+#      / /    / /__    / /___  ___   __  ______ __/ /_     / /
+#     / /     \___ \  /   __/ / __\ / / / __  //_  __/    / /
+#    / /     ____/ / / /\ \  / /   / / / /_/ /  / /      / /  
+#   / /     \_____/ /_/ /_/ /_/   /_/ / ____/  /_/      / /__ 
+#  / /    ========================== / / ==========    / / \ \
+# | |                               /_/               | |   | |
+#  \_\_________________________________________________\_\_/_/
+
+# =============================================================
+#                Changed Plugin — v5.5.1
+# =============================================================
+#Remember to fill the <SKIN_URL> with the skin download URL from MineSkin.
+#The beginning of the code:
+
+on load:
+    set {transfurblock_black} to black_concrete
+    set {transfurblock_white} to white_concrete
+    set {transfurblock_snep} to gray_concrete
+
+# =============================================================
+# BLACK TRANSFUR SYSTEM
+# =============================================================
+on player move:
+    if block under player is {transfurblock_black}:
+        if {transfur_cooldown::%player%} is set:
+            stop
+        set {transfur_cooldown::%player%} to true
+
+        apply slowness 6 to player for 15 seconds
+        send "&0You are being transfurred!"
+        set {slowdmg::%player%} to true
+
+        loop 5 times:
+            wait 1 second
+            if {slowdmg::%player%} is not set:
+                stop
+            damage player by 2
+
+        set {skin_on_respawn_default::%player%} to "https://minesk.in/d1df4d51a685427babd1154562bac5a9"
+        set {transfur_type::%player%} to "black"
+
+        kill player
+
+# =============================================================
+# WHITE TRANSFUR SYSTEM
+# =============================================================
+on player move:
+    if block under player is {transfurblock_white}:
+        if {transfur_cooldown::%player%} is set:
+            stop
+        set {transfur_cooldown::%player%} to true
+
+        apply slowness 6 to player for 15 seconds
+        send "&fYou are being transfurred!"
+        set {slowdmg::%player%} to true
+
+        loop 5 times:
+            wait 1 second
+            if {slowdmg::%player%} is not set:
+                stop
+            damage player by 2
+
+        set {skin_on_respawn_default::%player%} to "https://minesk.in/447975d4c4984821bad7be9b3a6be02f"
+        set {transfur_type::%player%} to "white"
+        kill player
+
+# =============================================================
+# SNEP TRANSFUR SYSTEM
+# =============================================================
+on player move:
+    if block under player is {transfurblock_snep}:
+        if {transfur_cooldown::%player%} is set:
+            stop
+        set {transfur_cooldown::%player%} to true
+
+        apply slowness 6 to player for 15 seconds
+        send "&7You are being transfurred!"
+        set {slowdmg::%player%} to true
+
+        loop 5 times:
+            wait 1 second
+            if {slowdmg::%player%} is not set:
+                stop
+            damage player by 2
+
+        set {skin_on_respawn_snep::%player%} to "https://minesk.in/ec75957d361a4b53a420e8a378a2dc63"
+        set {transfur_type::%player%} to "snep"
+
+        kill player
+
+
+# =============================================================
+# RESPAWN HANDLER
+# =============================================================
+on respawn:
+    if {skin_on_respawn_default::%player%} is set:
+        set {_skin} to {skin_on_respawn_default::%player%}
+        delete {skin_on_respawn_default::%player%}
+
+        execute player command "skin url %{_skin}%"
+        execute console command "attribute %player% minecraft:scale base set 1.15"
+
+        wait 2 ticks
+        apply speed 1 to player for 999999 seconds
+        apply strength 2 to player for 999999 seconds
+        apply absorption 10 to player for 999999 seconds
+        apply jump 1 to player for 999999 seconds
+    delete {transfur_cooldown::%player%}
+
+#Shark Buffs
+    if {skin_on_respawn_shark::%player%} is set:
+        set {_skin} to {skin_on_respawn_shark::%player%}
+        delete {skin_on_respawn_default::%player%}
+
+        execute player command "skin url %{_skin}%"
+        execute console command "attribute %player% minecraft:scale base set 1.15"
+        execute console command "attribute %player% minecraft:oxygen_bonus base set 1000"
+        execute console command "attribute %player% minecraft:water_movement_efficiency base set 1.5"
+
+
+        wait 2 ticks
+        apply speed 1 to player for 999999 seconds
+        apply strength 2 to player for 999999 seconds
+        apply absorption 10 to player for 999999 seconds
+        apply jump 1 to player for 999999 seconds
+
+#Snep Buffs
+    if {skin_on_respawn_snep::%player%} is set:
+        set {_skin} to {skin_on_respawn_snep::%player%}
+        delete {skin_on_respawn_snep::%player%}
+
+        execute player command "skin url %{_skin}%"
+        execute console command "attribute %player% minecraft:scale base set 1.15"
+        execute console command "attribute %player% minecraft:safe_fall_distance base set 1000"
+
+        wait 2 ticks
+        apply speed 2 to player for 999999 seconds
+        apply strength 2 to player for 999999 seconds
+        apply absorption 10 to player for 999999 seconds 
+        apply jump 1 to player for 999999 seconds
+
+
+# =============================================================
+# CUSTOM DEATH MESSAGES + RESET
+# =============================================================
+on death:
+    set {_v} to victim
+    set {_k} to attacker
+
+    # If killed by a transfurred player → victim becomes that transfur
+    if {_k} is a player:
+        if {transfur_type::%{_k}%} is set:
+            
+            set {_type} to {transfur_type::%{_k}%}
+
+            if {_type} is "black":
+                set death message to "&0☣ &l%{_v}% was transfurred by %{_k}% &0☣"
+                set {skin_on_respawn::%{_v}%} to "https://minesk.in/d1df4d51a685427babd1154562bac5a9"
+                set {transfur_type::%{_v}%} to "black"
+
+            else if {_type} is "white":
+                set death message to "&f☣ &l%{_v}% was transfurred by %{_k}% &f☣"
+                set {skin_on_respawn::%{_v}%} to "https://minesk.in/447975d4c4984821bad7be9b3a6be02f"
+                set {transfur_type::%{_v}%} to "white"
+
+            else if {_type} is "shark":
+                set death message to "&b☣ &l%{_v}% was transfurred by %{_k}% &b☣"
+                set {skin_on_respawn_shark::%{_v}%} to "https://minesk.in/5197710250f945d083aeb39aef0b78ac"
+                set {transfur_type::%{_v}%} to "shark"
+
+            else if {_type} is "snep":
+                set death message to "&b☣ &l%{_v}% was transfurred by %{_k}% &b☣"
+                set {skin_on_respawn_snep::%{_v}%} to "https://minesk.in/ec75957d361a4b53a420e8a378a2dc63"
+                set {transfur_type::%{_v}%} to "snep"
+            stop  # STOP HERE to prevent cleaning up their effects
+
+
+    # ---------- DEFAULT DEATH (not transfur related) ----------
+    if {transfur_type::%{_v}%} is "black":
+        set death message to "&0☣ &l%{_v}% was transfurred by the Black Latex &0☣"
+        delete {transfur_type::%{_v}%}
+
+    else if {transfur_type::%{_v}%} is "white":
+        set death message to "&f☣ &l%{_v}% was transfurred by the White Latex &f☣"
+        delete {transfur_type::%{_v}%}
+
+    else if {transfur_type::%{_v}%} is "shark":
+        set death message to "&b☣ &l%{_v}% was transfurred by the Latex Shark &b☣"
+        delete {transfur_type::%{_v}%}
+
+    else if {transfur_type::%{_v}%} is "snep":
+        set death message to "&7☣ &l%{_v}% was transfurred by the Snep Latex &7☣"
+        delete {transfur_type::%{_v}%}
+    else:
+        # normal death - clean the player
+        remove speed from {_v}
+        remove strength from {_v}
+        remove absorption from {_v}
+        execute console command "skin clear %{_v}%"
+        execute console command "attribute %{_v}% minecraft:scale base reset"
+        execute console command "attribute %{_v}% minecraft:oxygen_bonus base reset"
+        execute console command "attribute %{_v}% minecraft:water_movement_efficiency base reset"
+        execute console command "attribute %{_v}% minecraft:safe_fall_distance base reset"
+
+    delete {slowdmg::%{_v}%}
+    delete {transfur_cooldown::%{_v}%}
+    delete {is_held::%{_v}%}
+    delete {escape_counter::%{_v}%}
+
+# =================================================-----------------
+# COMMANDS
+# =================================================-----------------
+
+#/trnsf <text> <player>
+command /trnsf <text> <player>:
+    permission: op
+    usage: /trnsf <black/white/shark/snep> <player>
+    trigger:
+        set {_type} to arg-1
+        set {_target} to arg-2
+
+        if {_type} is "black":
+            set {skin_on_respawn::%{_target}%} to "https://minesk.in/d1df4d51a685427babd1154562bac5a9"
+            set {transfur_type::%{_target}%} to "black"
+            kill {_target}
+            send "&0[MANUAL] %{_target}% became Black Latex."
+            stop
+
+        if {_type} is "white":
+            set {skin_on_respawn::%{_target}%} to "https://minesk.in/447975d4c4984821bad7be9b3a6be02f"
+            set {transfur_type::%{_target}%} to "white"
+            kill {_target}
+            send "&f[MANUAL] %{_target}% became White Latex."
+            stop
+
+        if {_type} is "shark":
+            set {skin_on_respawn_shark::%{_target}%} to "https://minesk.in/5197710250f945d083aeb39aef0b78ac"
+            set {transfur_type::%{_target}%} to "shark"
+            kill {_target}
+            send "&b[MANUAL] %{_target}% became Latex Shark."
+            stop
+            
+        if {_type} is "snep":
+            set {skin_on_respawn_shark::%{_target}%} to "https://minesk.in/ec75957d361a4b53a420e8a378a2dc63"
+            set {transfur_type::%{_target}%} to "snep"
+            kill {_target}
+            send "&7[MANUAL] %{_target}% became Latex Snep."
+            stop
+
+
+        send "&cUnknown transfur type! Use: black, white, shark and snep."
+        
+
+# /chg dev <subcommand> <player>
+command /chg_dev <text> <player>:
+    permission: op
+    usage: /chg dev <subcommand> <player>
+    trigger:
+        set {_cmd} to arg-1
+        set {_p} to arg-2
+
+
+        if {_cmd} is "test_white":
+            execute console command "trnsf white %{_p}%"
+
+        else if {_cmd} is "test_black":
+            execute console command "trnsf black %{_p}%"
+
+        else if {_cmd} is "test_shark":
+            execute console command "trnsf shark %{_p}%"
+
+        else:
+            send "&cUnknown dev subcommand!"
+
+
+# /untf <player>
+command /untf <player>:
+    permission: op
+    usage: /untf <player>
+    trigger:
+        set {_p} to arg-1
+
+        execute console command "kill %{_p}%"
+        send "&a%{_p}% has been fully untransfurred!"
+
+        delete {slowdmg::%{_p}%}
+        delete {transfur_cooldown::%{_p}%}
+        delete {is_held::%{_p}%}
+        delete {escape_counter::%{_p}%}
+        delete {transfur_type::%{_p}%}
+        delete {skin_on_respawn::%{_p}%}
+        delete {skin_on_respawn_shark::%{_p}%}
+
+        execute console command "skin clear %{_p}%"
+        execute console command "attribute %{_p}% minecraft:scale base reset"
+        execute console command "attribute %{_p}% minecraft:oxygen_bonus base reset"
+        execute console command "attribute %{_p}% minecraft:water_movement_efficiency base reset"
+
+        remove speed from {_p}
+        remove strength from {_p}
+        remove absorption from {_p}
+        remove jump from {_p}
+
+# =====================================================
+# MERGE SYSTEM (Command-based, universal Skript syntax)
+# =====================================================
+
+command /merge <player>:
+    trigger:
+        set {_u} to player
+        set {_t} to arg-1
+
+        # Target must be a player
+        if {_t} is not set:
+            send "&cYou must choose someone!" to {_u}
+            stop
+
+        # Only transfurred player can merge others
+        if {transfur::%{_u}%} is not set:
+            send "&cOnly transfurred players can merge others!" to {_u}
+            stop
+
+        # Player must be very close (2 blocks)
+        if distance between {_u} and {_t} > 2:
+            send "&cPlayer must be within 2 blocks!" to {_u}
+            stop
+
+        # Target cannot already be merged
+        if {merged::%{_t}%} is set:
+            send "&cThat player is already merged into someone!" to {_u}
+            stop
+
+        # User cannot merge multiple players
+        if {hasMerged::%{_u}%} is set:
+            send "&cYou already merged someone!" to {_u}
+            stop
+
+        # =====================================================
+        # START MERGE
+        # =====================================================
+        set {merged::%{_t}%} to {_u}
+        set {hasMerged::%{_u}%} to {_t}
+
+        send "&aYou merged %{_t}% into you!" to {_u}
+        send "&bYou merged with %{_u}%!" to {_t}
+
+        # Put target into spectator mode watching the transfurred player
+        execute console command "gamemode spectator %{_t}%"
+        execute console command "spectate %{_u}% %{_t}%"
+
+        # Start following loop
+        set {merge.following::%{_t}%} to true
+
+        while {merge.following::%{_t}%} is true:
+            wait 5 ticks
+            if {_t} is not online:
+                delete {merge.following::%{_t}%}
+                stop
+            if {_u} is not online:
+                delete {merge.following::%{_t}%}
+                stop
+
+            # ALWAYS spectate the transfurred player (prevents abuse)
+            execute console command "spectate %{_u}% %{_t}%"
+
+        # End of loop
+
+        # =====================================================
+        # AUTO-TRANSFUR TIMER
+        # =====================================================
+        wait 15 seconds
+
+        # If still merged, transform
+        if {merged::%{_t}%} is {_u}:
+
+            delete {merge.following::%{_t}%}
+
+            execute console command "gamemode survival %{_t}%" # return normal mode
+            kill {_t}
+
+            set {transfur::%{_t}%} to {transfur::%{_u}%}
+            send "&cYou were fully transfurred!" to {_t}
+
+            # Cleanup
+            delete {merged::%{_t}%}
+            delete {hasMerged::%{_u}%}
+
+# =====================================================
+# UNMERGE COMMAND
+# =====================================================
+command /unmerge:
+    trigger:
+        set {_t} to player
+
+        if {merged::%{_t}%} is not set:
+            send "&cYou are not merged!" to {_t}
+            stop
+
+        set {_u} to {merged::%{_t}%}
+
+        send "&cYou unmerged!" to {_t}
+        send "&c%{_t}% has unmerged!" to {_u}
+
+        delete {merge.following::%{_t}%}
+
+        # Stop spectating
+        execute console command "gamemode survival %{_t}%"
+        execute console command "spectate stop %{_t}%"
+
+        delete {merged::%{_t}%}
+        delete {hasMerged::%{_u}%}
+
+# =====================================================
+# PREVENT SPECTATOR ABUSE
+# =====================================================
+
+on quit:
+    if {mergedInto::%player%} is set:
+        set {merge.follow.run::%player%} to false
+        delete {mergedInto::%player%}
+
+
+
+# =============================================================
+# END OF FILE — v5.5.1
+# =============================================================
+#Authors: Dima (Gole_Day2556), {Niilo (Kainoob23/Dumbass23)}
+#Great thanks to {Niilo}
+#{Niilo} is GAY
