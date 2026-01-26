@@ -1,1 +1,2 @@
-# LanCSMP Data
+## 🧩 Language
+- Skript (Minecraft)
