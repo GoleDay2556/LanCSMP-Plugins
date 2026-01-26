@@ -8,46 +8,48 @@
 #      _\/\\\_____________\////////\\\_\////////\\\_\//\\///////___\/\\\___\/\\\____\/\\\_/\\__\/\\\__/\\\/////\\\_____\/\\\____\////////\\\_\/\\\_____________  
 #       _\/\\\\\\\\\\\\\\\__/\\\\\\\\\\__/\\\\\\\\\\__\//\\\\\\\\\\_\/\\\___\/\\\____\//\\\\\___\/\\\_\//\\\\\\\\/\\__/\\\\\\\\\__/\\\\\\\\\\_\/\\\\\\\\\\\\\\\_ 
 #        _\///////////////__\//////////__\//////////____\//////////__\///____\///______\/////____\///___\////////\//__\/////////__\//////////__\///////////////__
-#V 4.0.0 - Lightweight Skript-based EssentialsX parody plugin.
+#V 4.0.1 - Lightweight Skript-based EssentialsX parody plugin.
 #=====================================================================================
 #  CONFIG
 #=====================================================================================
 options:
-    el_version: 4.0.0 # EssentialsL Version (Do not change)
+    el_version: "4.0.1" # EssentialsL Version (Do not change)
     debug: false # Enable @debug messages (true/false)
-    #Private Zone Server Options
-    iron_zone-block: iron block
-    iron_zone-radius: 10
+    # Team Names
+    team_1_name: "PLAYER"
+    team_1_color: "aqua"
+    team_1_prefix: "PLAYER_"
 
-    gold_zone-block: gold block
-    gold_zone-radius: 15
+    team_2_name: "ADMIN"
+    team_2_color: "dark_red"
+    team_2_prefix: "ADMIN_"
+ 
+    team_3_name: "MODERATOR"    
+    team_3_color: "red"
+    team_3_prefix: "MODERATOR_"
 
-    diamond_zone-block: diamond block   
-    diamond_zone-radius: 20
-
-    netherite_zone-block: netherite block
-    netherite_zone-radius: 30
-
-on load:
+    enable_afk_team: true
 #=====================================================================================
 #AUTO LOAD, DO NOT TOUCH!
 #=====================================================================================
-    execute console command "team add PLAYER"
-    execute console command "team modify PLAYER color aqua"
-    execute console command "team modify PLAYER prefix PLAYER_"
+on load:
+    execute console command "team add %{@team_1_name}%"
+    execute console command "team modify %{@team_1_name}% color %{@team_1_color}%"
+    execute console command "team modify %{@team_1_name}% prefix %{@team_1_prefix}%"
 
-    execute console command "team add ADMIN"
-    execute console command "team modify ADMIN color dark_red"
-    execute console command "team modify ADMIN prefix ADMIN_"
+    execute console command "team add %{@team_2_name}%"
+    execute console command "team modify %{@team_2_name}% color %{@team_2_color}%"
+    execute console command "team modify %{@team_2_name}% prefix %{@team_2_prefix}%"
 
-    execute console command "team add AFK"
-    execute console command "team modify AFK color green"
-    execute console command "team modify AFK prefix AFK_"
+    if {@enable_afk_team} is true:
+        execute console command "team add AFK"
+        execute console command "team modify AFK color green"
+        execute console command "team modify AFK prefix AFK_"
 
-    execute console command "team add MODERATOR"
-    execute console command "team modify MODERATOR color red"
-    execute console command "team modify MODERATOR prefix MODERATOR_"
-    
+    execute console command "team add %{@team_3_name}%"
+    execute console command "team modify %{@team_3_name}% color %{@team_3_color}%"
+    execute console command "team modify %{@team_3_name}% prefix %{@team_3_prefix}%"
+
     send "[EssentialsL] __/\\\\\\\\\\\\\\\____________________________________________________________________________________________/\\\\\\__________________/\\\_____________" to console
     send "[EssentialsL]  _\/\\\///////////____________________________________________________________________________________________\////\\\_________________\/\\\_____________" to console
     send "[EssentialsL]   _\/\\\________________________________________________________________________/\\\_______/\\\___________________\/\\\_________________\/\\\_____________" to console
@@ -728,78 +730,6 @@ command music <text>:
         if {music} is false:
             send "<white>[<cyan>EssentialsL<white>]<red> This feature is disabled!"
 
-#=====================================================================================
-# PRIVATE SYSTEM
-#=====================================================================================
-on place:
-    set {_radius} to 0
-
-    if event-block is {@iron_zone_block}:
-        set {_radius} to {@iron_zone_radius}
-    else if event-block is {@gold_zone_block}:
-        set {_radius} to {@gold_zone_radius}
-    else if event-block is {@diamond_zone_block}:
-        set {_radius} to {@diamond_zone_radius}
-    else if event-block is {@netherite_zone_block}:
-        set {_radius} to {@netherite_zone_radius}
-    else:
-        stop
-
-    set {_c} to location of event-block
-    set {_id} to "%world of player%-%x of {_c}%-%y of {_c}%-%z of {_c}%"
-
-    set {zone.owner::%{_id}%} to uuid of player
-    set {zone.center::%{_id}%} to {_c}
-    set {zone.radius::%{_id}%} to {_radius}
-
-    send "&aCube zone created! &7Size: &e%({_radius} * 2 + 1)%³"
-
-
-on break:
-    loop {zone.center::*}:
-        set {_c} to {zone.center::%loop-index%}
-        set {_r} to {zone.radius::%loop-index%}
-
-        if abs(x of event-location - x of {_c}) <= {_r}
-        and abs(y of event-location - y of {_c}) <= {_r}
-        and abs(z of event-location - z of {_c}) <= {_r}:
-            if uuid of player is not {zone.owner::%loop-index%}:
-                cancel event
-                send "&cThis cube is private!"
-
-
-on place:
-    loop {zone.center::*}:
-        set {_c} to {zone.center::%loop-index%}
-        set {_r} to {zone.radius::%loop-index%}
-
-        if abs(x of event-location - x of {_c}) <= {_r}
-        and abs(y of event-location - y of {_c}) <= {_r}
-        and abs(z of event-location - z of {_c}) <= {_r}:
-            if uuid of player is not {zone.owner::%loop-index%}:
-                cancel event
-
-
-on right click:
-    if clicked block is set:
-        loop {zone.center::*}:
-            set {_c} to {zone.center::%loop-index%}
-            set {_r} to {zone.radius::%loop-index%}
-
-            if abs(x of location of clicked block - x of {_c}) <= {_r}
-            and abs(y of location of clicked block - y of {_c}) <= {_r}
-            and abs(z of location of clicked block - z of {_c}) <= {_r}:
-                if uuid of player is not {zone.owner::%loop-index%}:
-                    cancel event
-
-
-on break:
-    loop {zone.center::*}:
-        if location of event-block is {zone.center::%loop-index%}:
-            delete {zone.owner::%loop-index%}
-            delete {zone.center::%loop-index%}
-            delete {zone.radius::%loop-index%}
-            send "&cCube zone removed."
 
 
 
