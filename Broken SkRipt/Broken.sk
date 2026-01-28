@@ -8,6 +8,7 @@
 options:
     bsk-enabled: true # Enable B̵̡͐̏̈̔̽r̶͔̱̬͉̼̺̀͒͗̉̾̓̿͘o̶̖͊͆̎c̷̘̱̄̈͋̒̈k̸̤̠̈̌͊̃̀̈́͘̕ę̶̭͊̀͝ņ̵̫̻̪̰̀́́́́́́́́́́́́́́́́ ̀̀̀̀̀̀̀̀̀̀̀̀̀  ️️️️️️️️️️️️️️  ️  ️  ️  ️  ️  ️  ️
 
+
 #=====================================================================================
 #AUTO LOAD, DO NOT TOUCH!
 #=====================================================================================
@@ -36,10 +37,7 @@ command /bsk <text>:
 
             set {bsk_running} to true
             send "&aBSK horror system started."
-            loop 10000 times:
-                if {bsk_running} is not true:
-                    stop loop
-                wait 1 seconds
+            while {bsk_running} is true:
                 bsk_rnd_player()
                 bsk_rnd()
                 if {rnd} is between 1 and 30:
@@ -47,7 +45,7 @@ command /bsk <text>:
                 else if {rnd} is between 31 and 60:
                     bsk_null_joined()
                 else if {rnd} is between 61 and 90:
-                    bsk_none_join()
+                    bsk_none_joined()
                 
 
         if arg-1 is "stop":
@@ -76,6 +74,7 @@ function bsk_rnd():
 
 function null_fuck(p: player):
     execute console command "effect give %{bsk_victim}% blindness 5" 
+    send title "<black>H E L P" to {bsk_victim}
     damage {bsk_victim} by 1 heart
 
 function bsk_null_joined():
@@ -84,25 +83,24 @@ function bsk_null_joined():
     broadcast "<yellow>null.sk joined the game"
     set {bsk::null_joined} to true
 
-function bsk_none_join():
+function bsk_none_joined():
     if {bsk::none_joined} is true:
         stop
     broadcast "<yellow>&k none <yellow>joined the game"
     set {bsk::none_joined} to true
     wait 10 seconds
     broadcast "<red>you dont have op permission to use this command"
-    wait 5 ticks
+    wait 5 seconds
     broadcast "<red>you dont have op permission to use this command"
     wait 2 ticks
-    broadcast "<red>you dont have op permission to use this command"
-    wait 3 ticks
     broadcast "<red>you dont have op permission to use this command"
     wait 1 ticks
     broadcast "<red>you dont have op permission to use this command"
     wait 2 seconds
+    broadcast "<red>you dont have op permission to use this command"
+    wait 5 seconds
     broadcast "Granted player &knone <white>operator permissions"
 
-function 
 
 function bsk_stop():
     set {bsk::null_joined} to false
@@ -122,7 +120,7 @@ on quit:
      
         
 
-            
+           
 
 
 

@@ -16,9 +16,7 @@ options:
     el_version: "4.0.2" # EssentialsL Version (Do not change)
 
     # Main Settings
-
     debug: false # Enable debug messages (true/false)
-    yaml_config: true # Enable YAML config creation (true/false)
     name_on_start: true # Logo displayed on server start (true/false)
     owner_name: "Dimonium_" # Owner name used
 
@@ -152,13 +150,13 @@ command /feature <text> [<text>]:
                 broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled teams feature"
             if arg-2 is "balance":
                 set {balance} to false
-                broadcast "<white>[<cyan>EssentialsL<white>] <lime>Disabled balance feature" 
+                broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled balance feature" 
             else if arg-2 is "money-send":
                 set {money-send} to false
-                broadcast "<white>[<cyan>EssentialsL<white>] <lime>Disabled money-send feature"
+                broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled money-send feature"
             else if arg-2 is "daily":
                 set {daily} to false
-                broadcast "<white>[<cyan>EssentialsL<white>] <lime>Disabled daily feature"
+                broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled daily feature"
             else if arg-2 is "auth":
                 set {auth} to false
                 broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled auth Script"
