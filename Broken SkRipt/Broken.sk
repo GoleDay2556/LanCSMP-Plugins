@@ -43,7 +43,7 @@ command /bsk <text>:
                 bsk_rnd_player()
                 bsk_rnd()
                 if {rnd} is between 1 and 30:
-                    null_fk({bsk_victim})
+                    null_fuck({bsk_victim})
                 else if {rnd} is between 31 and 60:
                     bsk_null_joined()
                 else if {rnd} is between 61 and 90:
@@ -74,7 +74,7 @@ function bsk_rnd():
         set {rnd} to random number between 1 and 100
 
 
-function null_fk(p: player):
+function null_fuck(p: player):
     execute console command "effect give %{bsk_victim}% blindness 5" 
     damage {bsk_victim} by 1 heart
 
@@ -102,17 +102,21 @@ function bsk_none_join():
     wait 2 seconds
     broadcast "Granted player &knone <white>operator permissions"
 
+function 
+
 function bsk_stop():
     set {bsk::null_joined} to false
     set {bsk::none_joined} to false
 
 
 #=====================================================================================
-# CLEANUP
+# TRIGGERS 
 #=====================================================================================
 on quit:
     if player is {bsk_victim}:
         delete {bsk_victim}
+
+
 
 
      

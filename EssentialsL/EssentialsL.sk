@@ -629,14 +629,15 @@ command /home [<text>]:
             send "<white>[<cyan>EssentialsL<white>]<red> This feature is disabled!"
 
 # kys
-command /kys:
+command /kms:
     executable by: players
     trigger:
         if {@debug} is true:
             send "<white>[<cyan>EssentialsL<white>] <yellow>[@debug] <aqua>Killing %{player}%" to console
         if {kys} is true:
             kill player
-
+            set death message to "%{player}% killed himself"
+            
         if {kys} is false:
             send "<white>[<cyan>EssentialsL<white>]<red> This feature is disabled!"
 
