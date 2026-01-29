@@ -16,9 +16,7 @@ options:
 
     none_min: 1
     none_max: 4
-    none_min_attack: 80
-    none_max_attack: 83
-
+    none_attack: 80
     random_min_time: 50
     random_max_time: 52
 
@@ -62,8 +60,9 @@ command /bsk <text>:
                     bsk_none_joined()
                 else if {rnd} is between {@random_min_time} and {@random_max_time}:
                     bsk_time()
-                else if {rnd} is between {@none_min_attack} and {@none_max_attack}:
+                else if {rnd} is {@none_attack}:     
                     bsk_none_fuck()
+
 
         if arg-1 is "stop":
             if {bsk_running} is not true:
@@ -93,7 +92,7 @@ function null_fuck(p: player):
     execute console command "effect give %{bsk_victim}% blindness 5"
     send title "<gray>H E L P" to {bsk_victim}
     play sound "ambient.cave" to {bsk_victim}
-    teleport {bsk_victim} to location of {bsk_victim} offset by 0, 10, 0
+    execute console command "tp %{bsk_victim}% ~ ~10 ~"
     damage {bsk_victim} by 1 heart
 
 function bsk_null_joined():
@@ -130,27 +129,10 @@ function bsk_time():
         
 function bsk_none_fuck():
     if {bsk::none_joined} is true:
-        loop 2 times:
+        loop 10 times:
             set time of world "world" to night
-            wait 10 ticks
+            wait 20 ticks
             set time of world "world" to day
-            wait 10 ticks
-            set time of world "world" to night
-            wait 10 ticks
-            set time of world "world" to day
-            wait 10 ticks
-            set time of world "world" to night
-            wait 10 ticks
-            set time of world "world" to day
-            wait 10 ticks
-            set time of world "world" to night
-            wait 10 ticks
-            set time of world "world" to day
-            wait 10 ticks
-            set time of world "world" to night
-            wait 10 ticks
-            set time of world "world" to day
-            send "<black>Y O U   A R E   F U C K E D" to all players
 
 function bsk_stop():
     set {bsk::null_joined} to false
@@ -166,17 +148,21 @@ on quit:
     
 on chat:
     if message contains "null":
-        kill player
-        broadcast "01100100 01101111 &kA A A A"
+        if {bsk::null_joined} is true:
+            play sound "ambient.cave" to player
+            kill player
+            broadcast "01000111 01000001 01011001 &kA A A A"
+        
+on player sleep:
+    while {bsk_running} is true:
+        if time is night:
+            cancel event
+            damage player by 5 hearts
+
+
 
 
 
      
         
 
-            
-
-
-
-    
-        
