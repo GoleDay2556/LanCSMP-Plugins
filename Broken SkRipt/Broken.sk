@@ -153,7 +153,7 @@ on chat:
             kill player
             broadcast "01000111 01000001 01011001 &kA A A A"
         
-on player sleep:
+on bed enter:
     while {bsk_running} is true:
         if time is night:
             cancel event
