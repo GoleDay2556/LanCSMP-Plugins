@@ -36,7 +36,8 @@ options:
 #=====================================================================================
 # SEQUENCES
 #=====================================================================================
-command /bsk <text>:
+command /broken.sk <text>:
+    aliases: /bsk
     permission: op
     trigger:
         if {@bsk-enabled} is not true:
@@ -146,17 +147,7 @@ function bsk_rnd_tp(p: player):
         set {_z} to random number between -10 and 10
         execute console command "tp %{_p}% ~%{_x}% ~%{_y}% ~%{_z}%"
 
-function bsk_str_plc(p: player):
-    if {bsk::none_joined} is true:
-        wait 10 seconds
-        set {_loc} to location of player offset by vector(random number between -10 and 10, 0, random number between -10 and 10)
-        place structure "bsk_hb_structure.nbt" at {_loc}
-            
-            
-            
-
-
-        place structure "bsk_hb_structure" at {_loc}
+        
 
 function bsk_stop():
     set {bsk::null_joined} to false
