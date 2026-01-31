@@ -24,10 +24,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build Minecraft Server Status EXE
-        run: pyinstaller --onefile --name MCServerStatus --add-data "MCServerStatus/MC_Server_Status/config.json;." MCServerStatus/MC_Server_Status/MCStatusPage.py
+        run: pyinstaller --onefile --name MCServerStatus --add-data "MCServerStatus/MC_Server_Status/config.json;." MCServerStatus/MC_Server_Status/MCStatus.py
 
       - name: Build Panel Server Status EXE
-        run: pyinstaller --onefile --name PanelServerStatus --add-data "MCServerStatus/Panel_Server_Status/config.json;." MCServerStatus/Panel_Server_Status/PanelStatusPage.py
+        run: pyinstaller --onefile --name PanelServerStatus --add-data "MCServerStatus/Panel_Server_Status/config.json;." MCServerStatus/Panel_Server_Status/WebStatus.py
 
       - name: Upload EXEs
         uses: actions/upload-artifact@v4
