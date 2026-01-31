@@ -5,7 +5,7 @@ import json
 import sys
 import os
 
-CONFIG_FILE = "config.json"
+CONFIG_FILE = "config.json" #TEST
 
 def load_config():
     if not os.path.exists(CONFIG_FILE):
