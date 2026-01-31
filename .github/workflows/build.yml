@@ -26,7 +26,11 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --onefile --add-data "statuspage/config.json;." statuspage/StatusPage.py
+          pyinstaller --onefile --add-data "MCServerStatus/MC_Server_Status/config.json;." MCServerStatus/MC_Server_Status/MCStatusPage.py
+ 
+      - name: Build EXE
+        run: |
+          pyinstaller --onefile --add-data "MCServerStatus/Panel_Server_Status/config.json;." MCServerStatus/Panel_Server_Status/PanelStatusPage.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
