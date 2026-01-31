@@ -48,7 +48,7 @@ jobs:
       - name: Zip WebServerStatus
         run: |
           copy build\WebServerStatus\PanelServerStatus.exe WebStatus.exe
-          copy MCServerStatus\Panel_Server_Status\config.json config.json
+          copy MCServerStatus\Web_Server_Status\config.json config.json
           powershell Compress-Archive -Path WebStatus.exe, config.json -DestinationPath WebServerStatus.zip
           del WebStatus.exe
           del config.json
