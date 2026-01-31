@@ -5,8 +5,8 @@ import json
 import sys
 import os
 
-VERSION = "V1.0Web"
-CONFIG_FILE = "config.json"
+VERSION = "V1.0Web" #Version (DO NOT CHANGE)
+CONFIG_FILE = "config.json" #Configuration File (DO NOT CHANGE)
 
 def load_config():
     if not os.path.exists(CONFIG_FILE):
