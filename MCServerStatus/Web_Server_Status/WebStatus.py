@@ -11,7 +11,7 @@ CONFIG_FILE = "config.json" #Configuration File (DO NOT CHANGE)
 def load_config():
     if not os.path.exists(CONFIG_FILE):
         print("❌ config.json not found")
-        sys.exit(2)
+        sys.exit(1)
 
     with open(CONFIG_FILE, "r") as f:
         return json.load(f)
