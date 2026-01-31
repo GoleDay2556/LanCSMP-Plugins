@@ -11,9 +11,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # 1️⃣ Checkout the repo
+      # 1️⃣ Checkout the repo with write access
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
 
       # 2️⃣ Set up Python
       - name: Set up Python
@@ -32,7 +35,7 @@ jobs:
         run: pyinstaller --onefile --name MCServerStatus --add-data "MCServerStatus/MC_Server_Status/config.json;." MCServerStatus/MC_Server_Status/MCStatus.py --distpath "build/MCServerStatus"
 
       # 5️⃣ Build Panel / Web Server Status EXE
-      - name: Build Panel Server Status EXE
+      - name: Web Server Status EXE
         run: pyinstaller --onefile --name PanelServerStatus --add-data "MCServerStatus/Web_Server_Status/config.json;." MCServerStatus/Web_Server_Status/WebStatus.py --distpath "build/WebServerStatus"
 
       # 6️⃣ Zip Minecraft Server Status
@@ -53,11 +56,18 @@ jobs:
           del WebStatus.exe
           del config.json
 
-      # 8️⃣ Upload both ZIPs as artifacts
-      - name: Upload ZIPs
-        uses: actions/upload-artifact@v4
-        with:
-          name: StatusPage-Zips
-          path: |
-            MCServerStatus.zip
-            WebServerStatus.zip
+      # 8️⃣ Create folder in repo and move ZIPs there
+      - name: Move ZIPs to StatusZIPs folder
+        run: |
+          mkdir StatusZIPs
+          move MCServerStatus.zip StatusZIPs\
+          move WebServerStatus.zip StatusZIPs\
+
+      # 9️⃣ Commit and push the ZIPs to main branch
+      - name: Commit ZIPs to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add StatusZIPs/
+          git commit -m "Add latest ZIP files"
+          git push
