@@ -5,7 +5,7 @@ import json
 import sys
 import os
 
-VERSION = "V1.0MC" #Version (DO NOT CHANGE)
+VERSION = "V1.1MC" #Version (DO NOT CHANGE)
 CONFIG_FILE = "config.json" #Configuration File (DO NOT CHANGE)
 
 
@@ -45,7 +45,7 @@ def update_status(status):
     r = requests.patch(url, headers=headers, data=data)
     print(f"Status → {status} ({r.status_code})")
 
-print("✅ Minecraft Server Status Checker started" +  VERSION)
+print("✅ Minecraft Server Status Checker started " + VERSION)
 
 while True:
     update_status("operational" if is_server_online() else "major_outage")
