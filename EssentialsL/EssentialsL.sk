@@ -13,7 +13,7 @@
 #  CONFIG
 #=====================================================================================
 options:
-    el_version: "4.0.3" # EssentialsL Version (Do not change)
+    el_version: "4.1.0" # EssentialsL Version (Do not change)
 
     # Main Settings
     debug: false # Enable debug messages (true/false)
@@ -446,7 +446,14 @@ on damage of player:
         if victim is not op:
             cancel event
 
-    
+
+#Command Invesee
+command /invsee <player>:
+    permission: op
+    trigger:
+        open arg-1's inventory to player
+
+
 
 
 #=====================================================================================
