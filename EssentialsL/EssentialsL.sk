@@ -13,12 +13,12 @@
 #  CONFIG
 #=====================================================================================
 options:
-    el_version: "4.0.2" # EssentialsL Version (Do not change)
+    el_version: "4.0.3" # EssentialsL Version (Do not change)
 
     # Main Settings
     debug: false # Enable debug messages (true/false)
     name_on_start: true # Logo displayed on server start (true/false)
-    owner_name: "Dimonium_" # Owner name used
+    owner_name: "Dimonium_" # Owner of the server
 
 
     # Team Names
@@ -35,6 +35,15 @@ options:
     team_3_prefix: "MODERATOR_"
 
     enable_afk_team: true
+
+
+
+
+
+
+
+
+
 #=====================================================================================
 #AUTO LOAD, DO NOT TOUCH!
 #=====================================================================================
@@ -421,7 +430,6 @@ on block break:
     if {security} is true:
         if player is not op:
             cancel event
-    
     else:
         stop
 
