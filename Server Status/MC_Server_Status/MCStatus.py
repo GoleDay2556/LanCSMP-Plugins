@@ -7,7 +7,6 @@ import os
 
 VERSION = "V1.3MC" #Version (DO NOT CHANGE)
 CONFIG_FILE = "config.json" #Configuration File (DO NOT CHANGE)´
-STATUS_PROFILE = 
 
 
 def load_config():
