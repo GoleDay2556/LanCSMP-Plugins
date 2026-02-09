@@ -59,13 +59,13 @@ command /broken.sk <text>:
                     bsk_null_fuck({bsk_victim})
                 else if {rnd} is between {@null_min} and {@null_max}:
                     bsk_null_joined()
-                else if {rnd} is between {@none_min} and {@none_max}:
+                chance of 40%:
                     bsk_none_joined()
-                else if {rnd} is between {@random_min_time} and {@random_max_time}:
+                chance of 5%:
                     bsk_time()
-                else if {rnd} is between {@random_min_tp} and {@random_max_tp}:
+                chance of 1%:
                     bsk_rnd_tp(player)
-                else if {rnd} is {@none_attack}:     
+                chance of 10%:
                     bsk_none_fuck()
 
 

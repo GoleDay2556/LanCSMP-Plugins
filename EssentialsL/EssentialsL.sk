@@ -13,7 +13,7 @@
 #  CONFIG
 #=====================================================================================
 options:
-    el_version: "4.1.0" # EssentialsL Version (Do not change)
+    el_version: "4.1.1" # EssentialsL Version (Do not change)
 
     # Main Settings
     debug: false # Enable debug messages (true/false)
