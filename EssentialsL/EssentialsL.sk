@@ -117,28 +117,12 @@ command /feature <text> [<text>]:
             else if arg-2 is "teams":
                 set {teams} to true
                 broadcast "<white>[<cyan>EssentialsL<white>] <lime>Enabled teams feature"
-            if arg-2 is "balance":
-                set {balance} to true
-                broadcast "<white>[<cyan>EssentialsL<white>] <lime>Enabled balance feature" 
-            else if arg-2 is "money-send":
-                set {money-send} to true
-                broadcast "<white>[<cyan>EssentialsL<white>] <lime>Enabled money-send feature"
-            else if arg-2 is "daily":
-                set {daily} to true
-                broadcast "<white>[<cyan>EssentialsL<white>] <lime>Enabled daily feature"
-            else if arg-2 is "auth":
-                set {auth} to true
-                broadcast "<white>[<cyan>EssentialsL<white>] <lime>Enabled auth Script"
             else if arg-2 is "all":
                 set {music} to true
                 set {home} to true
                 set {kys} to true
                 set {afk} to true
                 set {teams} to true
-                set {balance} to true
-                set {money-send} to true
-                set {daily} to true
-                set {auth} to true
                 broadcast "<white>[<cyan>EssentialsL<white>] <lime>Enabled all features"
 
         else if arg-1 is "disable":
@@ -157,28 +141,12 @@ command /feature <text> [<text>]:
             else if arg-2 is "teams":
                 set {teams} to false
                 broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled teams feature"
-            if arg-2 is "balance":
-                set {balance} to false
-                broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled balance feature" 
-            else if arg-2 is "money-send":
-                set {money-send} to false
-                broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled money-send feature"
-            else if arg-2 is "daily":
-                set {daily} to false
-                broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled daily feature"
-            else if arg-2 is "auth":
-                set {auth} to false
-                broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled auth Script"
             else if arg-2 is "all":
                 set {music} to false
                 set {home} to false
                 set {kys} to false
                 set {afk} to false
                 set {teams} to false
-                set {balance} to false
-                set {money-send} to false
-                set {daily} to false
-                set {auth} to false
                 broadcast "<white>[<cyan>EssentialsL<white>] <red>Disabled all features"
 
 # Ban Player
