@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime
 
-VERSION = "V1.6Web"
+VERSION = "V1.5Web"
 CONFIG_FILE = "config.json"
 
 # ---- COLORS ----
@@ -89,7 +89,7 @@ def test_auth():
     print(now_time() + f"CONNECTION → Auth test HTTP {r.status_code}")
 
     if r.status_code in (200, 304):
-        print(GREEN + "✅ Bearer Connection success" + RESET)
+        print(GREEN + "✅ Connection success" + RESET)
         return True
     elif r.status_code == 401:
         print(RED + "❌ Error3: Invalid API Key" + RESET)
@@ -125,7 +125,6 @@ def update_status(status):
     try:
         r = requests.patch(url, headers=headers, data=data)
         print("========== Status ==========")
-        print(now_time() + YELLOW + f"Status → {status} ({r.status_code})" + RESET)
     except Exception as e:
         print(now_time() + RED + f"❌ Failed to update status ({e})" + RESET)
 
