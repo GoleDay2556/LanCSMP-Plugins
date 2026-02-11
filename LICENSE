@@ -1,125 +1,163 @@
+# User Agreement (Terms of Service)
 
-Copyright (c) 2026 Dima Golovanov — Lancasters SMP  
+Last Updated: 2026
+
+This Terms of Service ("Agreement") governs the use of all digital content, software, artwork, plugins, data, and related materials created and owned by **Dima Golovanov**, including the official server **Lancasters SMP** ("Author").
+
+By downloading, installing, accessing, or using any of the Author’s Works or services, including Lancasters SMP, you agree to the following terms.
+
+---
+
+# 1. Scope of Protected Works and Services
+
+This Agreement applies to ALL works and services created and operated by the Author, including but not limited to:
+
+- Web Status Checker software (.exe and source code)
+- Skript plugins and scripts
+- Minecraft-related tools and utilities
+- Artwork, graphics, logos, and branding
+- Images, textures, and visual assets
+- Documentation and written materials
+- Configuration examples and data files
+- Website and repository content
+- The official Minecraft server **Lancasters SMP**
+- Future updates and related digital products or services
+
+All such materials and services are referred to collectively as the "Works and Services".
+
+---
+
+# 2. Ownership
+
+All Works and Services are the exclusive intellectual property of:
+
+© 2026 Dima Golovanov — Lancasters SMP  
 All Rights Reserved.
 
----
-
-## 1. Ownership
-
-All software, source code, compiled binaries, artwork, graphics, images, scripts, plugins, data files, documentation, and related materials (the "Works") are the exclusive intellectual property of Dima Golovanov.
-
-This License does not transfer ownership of the Works.
+No ownership rights are transferred under this Agreement.
 
 ---
 
-## 2. Permission Grant
+# 3. License Grant
 
-Subject to the terms below, permission is granted to:
+You are granted a limited, non-exclusive, non-transferable, revocable license to:
 
-- Use the Works for personal or private server use  
-- Run the compiled versions  
-- Modify the Works strictly for private/self use  
-
----
-
-## 3. Modification Rule
-
-You may modify the Works ONLY for private use.
+- Use the Works for personal or private server use
+- Modify the Works strictly for private/self use only
+- Access and play on Lancasters SMP in accordance with these terms
 
 You may NOT:
 
-- Distribute modified versions  
-- Publish modified versions  
-- Share modified versions publicly  
-- Sell modified versions  
+- Redistribute original or modified versions of the Works
+- Sell or sublicense the Works
+- Remove copyright notices
+- Claim authorship
+- Publicly share modified versions
 
-All modified copies must remain private.
-
----
-
-## 4. Redistribution Prohibited
-
-You may NOT:
-
-- Redistribute the Works  
-- Reupload the Works to any platform  
-- Share the Works publicly  
-- Include the Works in another project  
-- Mirror the repository  
-- Upload the Works to marketplaces  
-
-Without explicit written permission from the copyright holder.
+Any violation results in immediate termination of this license.
 
 ---
 
-## 5. Commercial Use Prohibited
-
-Commercial use is strictly prohibited.
-
-This includes but is not limited to:
-
-- Selling the Works  
-- Using the Works in paid products  
-- Monetizing access to the Works  
-- Using branding, artwork, or logos commercially  
-
-Written permission is required for any commercial usage.
-
----
-
-## 6. Pay-to-Win Restriction
+# 4. Strict Prohibition of Pay-to-Win Usage
 
 The Works may NOT be used on any server or platform that:
 
-- Sells gameplay advantages for real money  
-- Provides purchasable in-game power, ranks, boosts, or competitive advantages  
-- Operates as a Pay-to-Win (P2W) system  
+- Sells gameplay advantages for real money
+- Provides purchasable power, ranks, boosts, or competitive advantages
+- Operates as a Pay-to-Win (P2W) system
 
-If a server becomes Pay-to-Win after implementation, the license is immediately revoked.
+This restriction does not apply to Lancasters SMP unless explicitly stated by the Author.
 
----
-
-## 7. No Removal of Copyright
-
-You may NOT remove, modify, or hide any copyright notices included in the Works.
+If a third-party server becomes Pay-to-Win after implementation of the Works, the license is automatically revoked.
 
 ---
 
-## 8. Disclaimer of Warranty
+# 5. Lancasters SMP – Server Protection & Anti-Abuse Policy
 
-THE WORKS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+Lancasters SMP is the official server owned and operated by the Author.
 
-The author is not responsible for:
+By joining or interacting with Lancasters SMP, you agree that you will NOT:
 
-- Server damage  
-- Data loss  
-- API failures  
-- Downtime  
-- Security issues  
-- Any direct or indirect damages  
+- Attempt to crash, overload, lag, or disrupt the server
+- Attempt to shut down or interfere with server availability
+- Perform stress tests without permission
+- Use hacks, cheat clients, x-ray, or unfair modifications
+- Exploit bugs, glitches, or vulnerabilities
+- Attempt unauthorized access to systems or accounts
+- Perform or assist in DDoS attacks
+- Reverse engineer security mechanisms
+- Bypass anti-cheat or protection systems
+
+Any such behavior may result in:
+
+- Immediate permanent ban
+- IP or hardware bans where applicable
+- License termination
+- Reporting to hosting providers
+- Legal action where applicable
+
+---
+
+# 6. Commercial Use Restriction
+
+Commercial use of the Works is strictly prohibited without explicit written permission.
+
+This includes:
+
+- Selling modified versions
+- Using artwork in paid content
+- Monetizing access to the Works
+- Redistributing for profit
+
+---
+
+# 7. Disclaimer of Warranty
+
+THE WORKS AND SERVICES ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.
+
+The Author does not guarantee:
+
+- Error-free operation
+- Continuous availability
+- Compatibility
+- Fitness for a particular purpose
 
 Use at your own risk.
 
 ---
 
-## 9. Termination
+# 8. Limitation of Liability
 
-Any violation of this License results in immediate termination of your rights under this License.
+Under no circumstances shall the Author be liable for:
 
-Upon termination, you must delete all copies of the Works.
+- Direct or indirect damages
+- Data loss
+- Revenue loss
+- Downtime
+- Security breaches caused by user negligence
 
----
-
-## 10. Enforcement
-
-Unauthorized use may result in:
-
-- DMCA takedown requests  
-- Copyright claims  
-- Legal action where applicable  
+This limitation applies to the maximum extent permitted by law.
 
 ---
 
-©  2026 Dima Golovanov — Lancasters SMP  
+# 9. Termination
+
+Violation of any term results in immediate termination of your rights under this Agreement.
+
+Upon termination, you must cease use and delete all copies of the Works where applicable.
+
+---
+
+# 10. Governing Law
+
+This Agreement shall be governed by applicable laws in the Author’s jurisdiction.
+
+---
+
+# Full Copyright Notice
+
+© 2026 Dima Golovanov — Lancasters SMP  
 All Rights Reserved.
 
+Modification is permitted strictly for private use only.  
+Redistribution, commercial exploitation, Pay-to-Win usage, hacking attempts, crash attempts, or abusive behavior against Lancasters SMP are strictly prohibited.
