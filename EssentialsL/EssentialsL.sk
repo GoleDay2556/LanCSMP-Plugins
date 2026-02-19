@@ -13,13 +13,12 @@
 #  CONFIG
 #=====================================================================================
 options:
-    el_version: "4.3.0 pre-release" # EssentialsL Version (Do not change)
+    el_version: "4.3.1" # EssentialsL Version (Do not change)
 
     # Main Settings
-    debug: "false" # Enable debug messages (true/false) 
-    owner_name: "Dimonium_" # Owner of the server
-    serverip: "*"
-    servername: "Lancasters SMP"
+    owner_name: "YOUR_NAME" # Owner of the server
+    serverip: "SERVER_IP"
+    servername: "SERVER_NAME"
 
     # Team Names
     team_1_name: "PLAYER"
@@ -36,8 +35,8 @@ options:
 
 
 on load:
-    set {debug} to true #Debug
-    set {enable_afk_team} to true # Enable AFK Nicname features
+    set {debug} to false #Debug
+    set {enable_afk_team} to true # Enable AFK Nickname features
     set {name_on_start} to true # Logo displayed on server start (true/false()
 #=====================================================================================
 # STARTUP LOADING
@@ -94,8 +93,8 @@ on load:
 
 
 on unload:
-    send "[EssentialsL] Shutting down EssentialsL..."
-    broadcast "<white>[<cyan>EssentialsL<white>]<red> EssentialsL has been shut down!"
+    send "[EssentialsL] Shutting down EssentialsL..." to console
+    broadcast "<white>[<cyan>EssentialsL<white>]<red> EssentialsL has been shut down!" 
 
 #+-----------------------------------------------------------------------------------+
 #|                                                                                   |
@@ -170,7 +169,6 @@ command /ban <offline player> [<text>]:
         if {debug} is true:
             send "<white>[<cyan>EssentialsL<white>] <yellow>[@debug] <aqua>Banning player %uuid of arg-1%(%arg-1%) for reason %arg-2%" to console
         
-        # Logic checks
         if arg-1 is player:
             send "<white>[<cyan>EssentialsL<white>] <red>Can't ban player. <yellow>Error code: ER_0" to player
             stop
@@ -179,7 +177,6 @@ command /ban <offline player> [<text>]:
             send "<white>[<cyan>EssentialsL<white>] <red>Can't ban player. <yellow>Error code: ERR_1_BANNED" to player
             stop
 
-        # Execution
         set {_reason} to arg-2 ? "banned"
         ban arg-1 due to "<red><bold>You were %{_reason}%"
         kick arg-1 due to "<red><bold>You were %{_reason}%"
@@ -221,20 +218,16 @@ command /kill [<player>] [<text>]:
     permission: op
     permission message: &cYou do not have permission to use this command.
     trigger:
-        # 1. AFK Check
         if {afk::%player%} is set:
             send "<white>[<cyan>EssentialsL<white>]<red> Can't kill player. <yellow>Error code: ERR_1_IS_AFK" to player
             stop
 
-        # 2. Debug & Target logic
         set {_target} to arg-1 ? player
         if {debug} is true:
             send "<white>[<cyan>EssentialsL<white>] <yellow>[@debug] <aqua>Killing player %{_target}%" to console
 
-        # 3. Execution
         kill {_target}
 
-        # 4. Message Logic
         if arg-1 is not set:
             send "<white>[<cyan>EssentialsL<white>] <red>You killed yourself!" to player
         else if arg-2 is set:
@@ -433,11 +426,15 @@ command /spawn:
     cooldown: 60 seconds
     trigger:
         send title "<red>3"
+        play sound "block.noteblock.pling" to player
         wait 1 second
         send title "<red>2"
+        play sound "block.noteblock.pling" to player
         wait 1 second
         send title "<red>1"
+        play sound "block.noteblock.pling" to player
         wait 1 second
+        send title " "
         teleport player to {spawn.location}
 
  
@@ -679,24 +676,26 @@ command /afk:
         if {pvp::%uuid of player%} is false:
             if {afk} is true:
                 if {afk::%player%} is set:
-                    delete {afk::%player%}
+                    delete {afk.on::%player%}
                     set {afk.last::%player%} to now
                     broadcast "<white>[<cyan>EssentialsL<white>] <yellow>%player% is no longer AFK."
                     execute console command "team leave AFK %player%"
                 else:
-                    set {afk::%player%} to true
+                    set {afk.on::%player%} to true
                     set {afk.last::%player%} to now
                     broadcast "<white>[<cyan>EssentialsL<white>] <yellow>%player% is now AFK."
                     execute console command "team join AFK %player%"
 
-            else:
-                if {afk} is false:
-                    send "<white>[<cyan>EssentialsL<white>]<red> This feature is disabled!"
+        else if {pvp::%uuid of player%} is true:
+            send "<white>[<cyan>EssentialsL<white>]<red> You are in PvP mode!"
+
+            if {afk} is false:
+                send "<white>[<cyan>EssentialsL<white>]<red> This feature is disabled!"
 
 on player move:
-    if {afk::%player%} is set:
+    if {afk.on::%player%} is set:
         if distance between event-location and past event-location > 0.1:
-            delete {afk::%player%}
+            delete {afk.on::%player%}
             set {afk.last::%player%} to now
             broadcast "<white>[<cyan>EssentialsL<white>] <yellow>%player% is no longer AFK."
             execute console command "team leave AFK %player%"
@@ -705,8 +704,8 @@ on player move:
 
 
 on chat:
-    if {afk::%player%} is set:
-        delete {afk::%player%}
+    if {afk.on::%player%} is set:
+        delete {afk.on::%player%}
         set {afk.last::%player%} to now
         broadcast "<yellow>%player% is no longer AFK."
         execute console command "team leave AFK %player%"
@@ -717,7 +716,7 @@ on damage of player:
     set {_attacker} to attacker
     set {_victim} to victim
     
-    if {afk::%{_victim}%} is set:
+    if {afk.on::%{_victim}%} is set:
         cancel event
         send "<red><bold>That player is currently AFK!" to {_attacker}
         stop
@@ -821,9 +820,6 @@ function loadingAnimation(p: player, l: integer):
         send action bar "<cyan>\" to {_p}
         wait 0.2 second
 
-command loadingtest:
-    trigger:
-        loadingAnimation(player, 10)
 #   End of the file
 #====================================================================================
 #   Authors: Dimonium_ (Dima)- Lead Developer
